@@ -2,6 +2,8 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+# from application import routes # 추가한 부분 
+
 
 ### 전역 변수 -----------------------------------
 db = SQLAlchemy()

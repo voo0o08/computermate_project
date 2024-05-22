@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/nav.css')}}">
     {% if title %}
     <title>CodeWith Prince - {{title}}</title>
     {% else %}
@@ -22,27 +23,22 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">CodeWithPrince</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Pricing</a>
-              </li>
-            </ul>
-          </div>
+    
+    <!-- nav 상단바 내용 시작 -->
+    <nav class="navbar">
+      <div class="white_back">
+        <div class="nav_logo">
+          <img src="../static/img/cm_logo.png" alt="Logo">
         </div>
+        <ul class="nav_menu">
+          <li><a href="">Dash</a></li>
+          <li><a href="">1공장</a></li>
+          <li><a href="">2공장</a></li>
+          <li><a href="">3공장</a></li>
+        </ul>
+      </div>
     </nav>
+    <!-- nav 상단바 내용 끝 -->
 
     <main>
         <div class="container">

@@ -11,7 +11,8 @@ import numpy as np
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
-WINDOW_SIZE = 10
+CM_DF = pd.read_csv("./cm_web/static/data/for_web.csv")
+WINDOW_SIZE = 30
 cnt = 0
 
 # @=>데코레이터 
@@ -36,12 +37,12 @@ def index():
 @bp.route('/update_chart')
 def update_chart():
     global WINDOW_SIZE
+    global CM_DF
     global cnt
     print("Updating chart...")  # 로그 추가 -> python terminal에서 확인
     # 데이터 업데이트 로직 (예시)
-    cm_data = pd.read_csv("./cm_web/static/data/for_web.csv")
     
-    col_data = cm_data["n_temp_pv"]
+    col_data = CM_DF["n_temp_pv"]
     new_fig = px.line(x=range(WINDOW_SIZE), y=col_data[cnt:cnt+WINDOW_SIZE],
                       markers=True)
     new_fig.update_layout(yaxis_range=[60, 80])

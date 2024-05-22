@@ -6,38 +6,42 @@
     font-style: normal;
   }
   
-  @font-face {
-    font-family: "work_sansregular";
-    src: url("../fonts/worksans-variablefont_wght-webfont.woff2") format("woff2"),
-      url("../fonts/worksans-variablefont_wght-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
+@font-face {
+  font-family: "work_sansregular";
+  src: url("../fonts/worksans-variablefont_wght-webfont.woff2") format("woff2"),
+    url("../fonts/worksans-variablefont_wght-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background-color: #F2F2F2;
+}
   
-  * {
-    padding: 0px;
-    margin: 0;
-    font-family: work_sansregular;
-  }
+* {
+  padding: 0px;
+  margin: 0;
+  font-family: work_sansregular;
+}
   
-  .navbar-text {
-    color: rgb(250, 250, 250);
-  }
+.navbar-text {
+  color: rgb(250, 250, 250);
+}
   
-  .navbar-brand {
-    color: rgb(250, 250, 250);
-    font-family: lobsterregular;
-    font-size: 2.5rem;
-  }
-  
-  .navbar-brand:hover {
-    color: rgb(250, 250, 250);
-    font-family: lobsterregular;
-  }
-  
-  .site-header-logo h1 {
-    color: rgb(39, 147, 248);
-    font-family: lobsterregular;
-    font-size: 3rem;
-    margin-top: 2rem;
-  }
+.navbar-brand {
+  color: rgb(250, 250, 250);
+  font-family: lobsterregular;
+  font-size: 2.5rem;
+}
+
+.navbar-brand:hover {
+  color: rgb(250, 250, 250);
+  font-family: lobsterregular;
+}
+
+.site-header-logo h1 {
+  color: rgb(39, 147, 248);
+  font-family: lobsterregular;
+  font-size: 3rem;
+  margin-top: 2rem;
+}

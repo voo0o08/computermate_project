@@ -18,6 +18,12 @@ cnt = 0
 # @=>데코레이터 
 @bp.route("/")
 def index():
+    return render_template("index.html")
+
+
+# dashboard =========================================================================
+@bp.route("/dash")
+def dash():
     # graph one
     df = px.data.medals_wide()
     fig1 = px.bar(df, x="nation", y=["gold", "silver", "bronze"], title="WideForm Input")
@@ -30,7 +36,7 @@ def index():
                          color="species", title="Iris")
     graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
     
-    return render_template("index.html", title="Home", graph1JSON=graph1JSON, graph2JSON=graph2JSON)
+    return render_template("dash.html", title="Home", graph1JSON=graph1JSON, graph2JSON=graph2JSON)
 
 
 # 차트는 여기서 업데이트됨
@@ -50,3 +56,8 @@ def update_chart():
     new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
     cnt += 1 # WINDOW 이동
     return jsonify({"new_graphJSON": new_graphJSON, "msg" : "화이팅!"})
+
+# 1번 공장 =======================================================================================
+@bp.route('/factory1')
+def factory1():
+    return render_template("factory.html")

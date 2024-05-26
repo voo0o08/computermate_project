@@ -8,22 +8,32 @@
 
 <div class="row p-4">
   <div class="card m-auto" style="width: 90%;">
+
+    <div class="box">
+      <button type="submit" value="E_scr" id="E_scr" class="button_">E_scr</button>
+      <button type="submit" value="c_temp" id="c_temp" class="button_">c_temp</button>
+      <button type="submit" value="k_rpm" id="k_rpm" class="button_">k_rpm</button>
+      <button type="submit" value="n_temp" id="n_temp" class="button_">n_temp</button>
+      <button type="submit" value="s_temp" id="s_temp" class="button_">s_temp</button>
+    </div>
+    <!--
+      E_scr_pv,E_scr_sv,
+      c_temp_pv,c_temp_sv,
+      k_rpm_pv,k_rpm_sv,
+      n_temp_pv,n_temp_sv,
+      s_temp_pv,s_temp_sv
+    -->
     <div class="card-body">
       <div id="chart1"></div>
       <p>
         1번 차트 입니다
       </p>
       <script type="application/json" id="graph1-data">{{ graph1JSON | safe }}</script>
+      
     </div>
+    
   </div>
 
-  <!-- <div class="card m-auto" style="width: 90%;" data-aos="slide-up">
-    <div class="card-body">
-      <div id="chart2"></div>
-      <p>
-        2번 차트 입니다
-      </p>
-    </div> -->
 </div>
 </div>
 

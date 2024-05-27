@@ -1,0 +1,47 @@
+:root {
+    --gray-color: #F2F2F2;
+    --text-color: #7E7E7E;
+    --white-color: #ffffff;
+    --green-color: #1FA680;
+}
+
+* {
+box-sizing: border-box;
+}
+/* box-sizing 속성 -> 요소의 크기 계산 방법 지정 기본값은 content-box(요소 내부 콘텐츠 크기)
+: border-box 요소의 크기를 계산할 때 내부 여백과 테두리 요소를 크기에 포함 */
+
+#chart1_box{
+position: absolute;
+border-radius: 30px ;
+background-color: var(--gray-color);
+top: 15px;
+right: 15px;
+left: 15px;
+padding: 15px;
+height: 50%;
+}
+
+#chart1{
+    
+}
+
+.button_{
+    padding: 10px 40px;
+    text-decoration: none;
+    color: var(--text-color);
+    border-radius: 20px;
+    border: none;
+    background-color: var(--white-color);
+    font-size:20px;
+    margin-bottom: 15px;
+}
+
+.button_.active {
+    background-color: var(--green-color);
+    color: var(--white-color);
+}
+
+/* #col_select_box{
+    position: absolute;
+} */

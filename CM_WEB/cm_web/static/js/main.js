@@ -46,7 +46,7 @@ function updateChart(now_button) {
     console.error("AJAX request failed:", textStatus, errorThrown);  // 에러 로그 추가
   });
   }
-  setInterval(updateChart, 500);
+  setInterval(updateChart, 100);
 });
 // ready 끝
 
@@ -91,3 +91,13 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  let buttons = document.querySelectorAll('.button_');
+  
+  buttons.forEach(button => {
+      button.addEventListener('click', function() {
+          buttons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+      });
+  });
+});

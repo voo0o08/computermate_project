@@ -1,5 +1,4 @@
 from flask import Blueprint, redirect, jsonify
-
 # Response, request => HTML 응답 요청을 처리하기 위함 
 # render_template => HTML 파일을 렌더링
 from flask import Flask, render_template, Response, request
@@ -13,6 +12,9 @@ import numpy as np
 bp = Blueprint("main", __name__, url_prefix="/")
 
 CM_DF = pd.read_csv("./cm_web/static/data/for_web.csv")
+
+graph_idx = 0 # 기본값 E_scr 그래프 
+name_list = ("E_scr", "c_temp", "k_rpm", "n_temp", "s_temp")
 
 E_scr_pv = CM_DF["E_scr_pv"]
 E_scr_sv = CM_DF["E_scr_sv"]
@@ -39,7 +41,7 @@ def index():
 
 
 # dashboard =========================================================================
-@bp.route("/dash", methods=['POST'])
+@bp.route("/dash")
 def dash():
     
     # # graph one
@@ -185,12 +187,21 @@ def factory1():
 # button 값 확인 
 @bp.route('/click_button', methods=['POST'])
 def click_button():
+    global graph_idx
+    global name_list
     data = request.get_json()
     print(data)
-    # now_button = data.get('button')
-    # print(f"now_button: {now_button}")  # 터미널에 출력
-    
-    print("버튼이 클릭되었습니다!")
+    # name_list = ["E_scr", "c_temp", "k_rpm", "n_temp", "s_temp"]
+    # for i in len(name_list):
+    #     if data["button"] == name_list[i]:
+    #         graph_idx = i
+    '''
+    E_scr_pv,E_scr_sv,
+    c_temp_pv,c_temp_sv,
+    k_rpm_pv,k_rpm_sv,
+    n_temp_pv,n_temp_sv,
+    s_temp_pv,s_temp_sv
+    '''
     return jsonify({"message": "버튼이 클릭되었습니다!"})
 
     # return jsonify(success=True)

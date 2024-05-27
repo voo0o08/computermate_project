@@ -7,31 +7,42 @@
 
 a {
     text-decoration: none;
-    color: var(--text-color);}
+    color: var(--text-color);
+}
+
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--gray-color);
+    /*background-color: var(--gray-color);*/
     padding: 50px 50px;}
 
 
 .white_back {
-    height: 90%;
+    /*height: 90%;*/
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: var(--white-color);
-    padding: 8px 40px; /*안쪽으로 패딩?!*/
-    border-radius: 60px;  /* 둥근 모서리 설정 */
+    /*padding: 12px; !*안쪽으로 패딩?!*!*/
+    border-radius: 25px;  /* 둥근 모서리 설정 */
 }
 
+.nav_profile{
+    /*margin-right: auto;*/
+    width: 64px;
+    height: 64px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: -5px;
+}
 /* 이미지 오른쪽으로 붙임 */
 .nav_logo {
     order: 100;
     margin-left: auto;
+    margin-right: 80px;
 }
     
 .nav_menu {
@@ -45,17 +56,39 @@ a {
 }
 .nav_menu li a {
     display: block;
-    padding: 10px 20px;
+    padding: 10px 40px;
     text-decoration: none;
     color: var(--text-color);
     /* border: 1px solid #ddd; */
-    border-radius: 30px;
+    border-radius: 20px;
     background-color: var(--gray-color);
     transition: background-color 0.3s;
+    font-size:20px;
 }
+
+.nav_menu li a.active {
+    background-color: #efae6a;
+    color: #fff; /* 텍스트 색상 변경 */
+}
+
+/*.nav_menu .factory2 a {*/
+/*    background-color: #efae6a;*/
+/*    display: block;*/
+/*    padding: 10px 40px;*/
+/*    text-decoration: none;*/
+/*    color: var(--text-color);*/
+/*    !* border: 1px solid #ddd; *!*/
+/*    border-radius: 20px;*/
+/*    transition: background-color 0.3s;*/
+/*    font-size:20px;*/
+/*    --text-color: white;*/
+/*    !*font-style:bold;*!*/
+/*}*/
+
 
 /* 여기서 부터 hover */
 .nav_menu li a:hover {
     background-color: var(--green-color);
+    --text-color: white;
 }
 

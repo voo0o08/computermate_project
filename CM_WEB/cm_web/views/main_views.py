@@ -182,7 +182,19 @@ def update_chart2():
 # 1번 공장 =======================================================================================
 @bp.route('/factory1')
 def factory1():
-    return render_template("factory.html")
+    return render_template("factory1.html")
+
+@bp.route('/factory2')
+def factory2():
+    return render_template("factory2.html")
+
+@bp.route('/factory2_machine2_2')
+def factory2_machine2_2():
+    return render_template("factory2_machine2_2.html")
+
+@bp.route('/factory3')
+def factory3():
+    return render_template("factory3.html")
 
 # button 값 확인 
 @bp.route('/click_button', methods=['POST'])

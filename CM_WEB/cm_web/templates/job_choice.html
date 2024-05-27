@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Computer Mate Web</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/job_choice.css')}}">
 </head>
 <body>
     <div id="index_main_box">
@@ -17,12 +17,13 @@
                 <img src="../static/img/supervisor.png" alt=supervisor">
                 <p class="job_text">관리자용</p>
             </div>
+
             <div class="icon_box" id="employee_icon">
                 <img src="../static/img/employee.png" alt="employee">
                 <p class="job_text">작업자용</p>
             </div>
         </div>
-
     </div>
+    <script src="{{ url_for('static', filename='js/job_choice.js') }}"></script>
 </body>
 </html>

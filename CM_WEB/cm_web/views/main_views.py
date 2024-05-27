@@ -37,26 +37,12 @@ cnt = 0
 # @=>데코레이터 
 @bp.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("job_choice.html")
 
 
 # dashboard =========================================================================
 @bp.route("/dash")
 def dash():
-    
-    # # graph one
-    # df = px.data.medals_wide()
-    # fig1 = px.bar(df, x="nation", y=["gold", "silver", "bronze"], title="WideForm Input")
-    
-    # graph1JSON = json.dumps(fig1, cls=plotly.utils.PlotlyJSONEncoder)
-    
-    # # Graph Two
-    # df = px.data.iris()
-    # fig2 = px.scatter_3d(df, x="sepal_length", y="sepal_width", z="petal_width",
-    #                      color="species", title="Iris")
-    # graph2JSON = json.dumps(fig2, cls=plotly.utils.PlotlyJSONEncoder)
-    
-    ###########################################################################################
     global WINDOW_SIZE
     global CM_DF
     global cnt
@@ -216,4 +202,7 @@ def click_button():
     '''
     return jsonify({"message": "버튼이 클릭되었습니다!"})
 
-    # return jsonify(success=True)
+################################################### employee 전용 ###################################################
+@bp.route('/employee_dash')
+def employee_dash():
+    return render_template("temp.html")

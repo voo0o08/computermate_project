@@ -46,7 +46,7 @@ function updateChart(now_button) {
     console.error("AJAX request failed:", textStatus, errorThrown);  // 에러 로그 추가
   });
   }
-  setInterval(updateChart, 100);
+  setInterval(updateChart, term);
 });
 // ready 끝
 
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function createAllGauges() {
     createGaugeChart('gauge-chart-1', '챔버 온도', [55, 75]);
     createGaugeChart('gauge-chart-2', '칼날 RPM', [100, 200]);
-    createGaugeChart('gauge-chart-3', '사출 온도', [55, 75]);
+    createGaugeChart('gauge-chart-3', '노즐 온도', [55, 75]);
     createGaugeChart('gauge-chart-4', '스크류 온도', [55, 75]);
   }
 
@@ -156,5 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   createAllGauges();
-  setInterval(updateAllGauges, 800);
+  setInterval(updateAllGauges, term);
 });
+
+let term=100;

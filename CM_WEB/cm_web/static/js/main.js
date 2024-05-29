@@ -102,6 +102,111 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+// 도넛 차트
+// 초기 도넛 차트를 생성합니다.
+function createDonutChart(id, value, title) {
+  var colors;
+  if(id === 'donut-chart-3') {
+    colors = ['#FFA500', '#f2f2f2']; // 불량품 수의 막대 색상을 주황색으로 변경
+  } else {
+    colors = ['#1FA680', '#f2f2f2'];
+  }
+
+  var data = [{
+      values: [value, 300 - value],
+      labels: ['Used', 'Remaining'],
+      marker: {
+          colors: colors // 여기서 변경
+      },
+      textinfo: 'none',
+      hole: .4,
+      rotation: 0,
+      direction: 'clockwise',
+      type: 'pie'
+  }];
+
+  var layout = {
+      title: title,
+      height: 400,
+      width: 400,
+      showlegend: false,
+      annotations: [
+          {
+              font: {
+                  size: 20
+              },
+              showarrow: false,
+              text: value.toString(),
+              x: 0.5,
+              y: 0.5
+          }
+      ]
+  };
+
+  Plotly.newPlot(id, data, layout);
+}
+
+// 도넛 차트를 실시간으로 업데이트하는 함수
+function updateDonutChart(id, value) {
+  var colors;
+  if(id === 'donut-chart-3') {
+    colors = ['#FFA500', '#f2f2f2']; // 불량품 수의 막대 색상을 주황색으로 변경
+  } else {
+    colors = ['#1FA680', '#f2f2f2'];
+  }
+
+  Plotly.restyle(id, 'values', [[value, 300 - value]]);
+  Plotly.restyle(id, 'marker.colors', [colors]); // 막대 색상 업데이트
+  Plotly.relayout(id, {
+      annotations: [{
+          font: {
+              size: 20
+          },
+          showarrow: false,
+          text: value.toString(),
+          x: 0.5,
+          y: 0.5
+      }]
+  });
+}
+
+// 초기 차트 생성
+createDonutChart('donut-chart-1', 500, '총 생산량'); // 총 생산량을 500으로 변경
+createDonutChart('donut-chart-2', 400, '일일 생산량'); // 일일 생산량을 400으로 변경
+createDonutChart('donut-chart-3', 100, '불량품 수'); // 불량품 수를 100으로 변경
+
+// 초기값 설정
+let value1 = 1;
+let value2 = 1;
+let value3 = 1;
+
+// 매 0.1초마다 도넛 차트 값을 업데이트
+setInterval(function() {
+  // 값 증가 (예: 1씩 증가)
+  value1 = (value1 % 301) + 1;
+  value2 = (value2 % 301) + 1;
+  value3 = (value3 % 301) + 1;
+
+  // 도넛 차트 업데이트 함수 호출
+  updateDonutChart('donut-chart-1', value1);
+  updateDonutChart('donut-chart-2', value2);
+  updateDonutChart('donut-chart-3', value3);
+}, 100); // 0.1초마다 업데이트
+
+document.addEventListener("DOMContentLoaded", function() {
+  let buttons = document.querySelectorAll('.button_');
+
+  buttons.forEach(button => {
+      button.addEventListener('click', function() {
+          buttons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+      });
+  });
+});
+
+
+
+
 // 게이지 JS (새로 추가됨)
 document.addEventListener("DOMContentLoaded", function() {
   function createGaugeChart(id, title, range) {
@@ -138,10 +243,11 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function createAllGauges() {
-    createGaugeChart('gauge-chart-1', '챔버 온도', [55, 75]);
+    createGaugeChart('gauge-chart-1', '챔버 온도(℃)', [55, 75]);
     createGaugeChart('gauge-chart-2', '칼날 RPM', [100, 200]);
-    createGaugeChart('gauge-chart-3', '노즐 온도', [55, 75]);
-    createGaugeChart('gauge-chart-4', '스크류 온도', [55, 75]);
+    createGaugeChart('gauge-chart-3', '노즐 온도(℃)', [55, 75]);
+    createGaugeChart('gauge-chart-4', '스크류 온도(℃)', [55, 75]);
+    createGaugeChart('gauge-chart-5', '중량 무게(g)', [2, 4]);
   }
 
   function updateAllGauges() {
@@ -150,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
       updateGaugeChart('gauge-chart-2', data.k_rpm_pv);
       updateGaugeChart('gauge-chart-3', data.n_temp_pv);
       updateGaugeChart('gauge-chart-4', data.s_temp_pv);
+      updateGaugeChart('gauge-chart-5', data.scale_pv);
     }).fail(function(jqXHR, textStatus, errorThrown) {
       console.error("AJAX request failed:", textStatus, errorThrown);
     });

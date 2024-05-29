@@ -46,7 +46,7 @@ function updateChart(now_button) {
     console.error("AJAX request failed:", textStatus, errorThrown);  // 에러 로그 추가
   });
   }
-  setInterval(updateChart, 100);
+  setInterval(updateChart, 200);
 });
 // ready 끝
 

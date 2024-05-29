@@ -63,7 +63,7 @@ def draw_graph():
     global CM_DF
     global cnt
     global x_labels
-    
+
     col_pv = sr_list[graph_idx][0]
     col_sv = sr_list[graph_idx][1]
     new_fig = px.line(x=range(WINDOW_SIZE), y=col_pv[cnt:cnt+WINDOW_SIZE], markers=True)

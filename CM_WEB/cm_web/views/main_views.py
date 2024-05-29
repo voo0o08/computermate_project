@@ -34,6 +34,8 @@ n_temp_sv = CM_DF["n_temp_sv"]
 s_temp_pv = CM_DF["s_temp_pv"]
 s_temp_sv = CM_DF["s_temp_sv"]
 
+scale_pv = CM_DF["scale_pv"]
+
 sr_list = ((E_scr_pv, E_scr_sv),
            (c_temp_pv, c_temp_sv),
            (k_rpm_pv, k_rpm_sv),
@@ -173,7 +175,8 @@ def update_gauges():
         "c_temp_pv": float(c_temp_pv[cnt+WINDOW_SIZE]),
         "k_rpm_pv": float(k_rpm_pv[cnt+WINDOW_SIZE]),
         "n_temp_pv": float(n_temp_pv[cnt+WINDOW_SIZE]),
-        "s_temp_pv": float(s_temp_pv[cnt+WINDOW_SIZE])
+        "s_temp_pv": float(s_temp_pv[cnt+WINDOW_SIZE]),
+        "scale_pv": float(scale_pv[cnt+WINDOW_SIZE])
     }
     #cnt = (cnt + 1) % len(c_temp_pv)  # 데이터를 순환하도록 cnt를 리셋합니다.
     return jsonify(data)

@@ -101,3 +101,60 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   });
 });
+
+// 게이지 JS (새로 추가됨)
+document.addEventListener("DOMContentLoaded", function() {
+  function createGaugeChart(id, title, range) {
+    var data = [{
+      type: "indicator",
+      mode: "gauge+number",
+      value: 0,
+      title: { text: title, font: { size: 24 } },
+      gauge: {
+        axis: { range: range },
+        bar: { color: "lightgray" },
+        steps: [
+          { range: [range[0], (range[1] - range[0]) * 0.5 + range[0]], color: "white" },
+          { range: [(range[1] - range[0]) * 0.5 + range[0], range[1]], color: "green" }
+        ]
+      }
+    }];
+
+    var layout = {
+      width: 300,
+      height: 300,
+      margin: { t: 0, b: 0 }
+    };
+
+    Plotly.newPlot(id, data, layout);
+  }
+
+  function updateGaugeChart(id, value) {
+    var dataUpdate = {
+      value: [value]
+    };
+
+    Plotly.update(id, dataUpdate);
+  }
+
+  function createAllGauges() {
+    createGaugeChart('gauge-chart-1', '챔버 온도', [55, 75]);
+    createGaugeChart('gauge-chart-2', '칼날 RPM', [100, 200]);
+    createGaugeChart('gauge-chart-3', '사출 온도', [55, 75]);
+    createGaugeChart('gauge-chart-4', '스크류 온도', [55, 75]);
+  }
+
+  function updateAllGauges() {
+    $j.getJSON('/update_gauges', function(data) {
+      updateGaugeChart('gauge-chart-1', data.c_temp_pv);
+      updateGaugeChart('gauge-chart-2', data.k_rpm_pv);
+      updateGaugeChart('gauge-chart-3', data.n_temp_pv);
+      updateGaugeChart('gauge-chart-4', data.s_temp_pv);
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+      console.error("AJAX request failed:", textStatus, errorThrown);
+    });
+  }
+
+  createAllGauges();
+  setInterval(updateAllGauges, 800);
+});

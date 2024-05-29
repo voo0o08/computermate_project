@@ -164,9 +164,22 @@ def update_chart():
     # cnt += 1 # WINDOW 이동
     return jsonify({"new_graphJSON": new_graphJSON, "msg" : "화이팅!"})
 
+# 계기판 표현=================================================================================
+@bp.route('/update_gauges')
+def update_gauges():
+    global cnt
+    global WINDOW_SIZE
+    data = {
+        "c_temp_pv": float(c_temp_pv[cnt+WINDOW_SIZE]),
+        "k_rpm_pv": float(k_rpm_pv[cnt+WINDOW_SIZE]),
+        "n_temp_pv": float(n_temp_pv[cnt+WINDOW_SIZE]),
+        "s_temp_pv": float(s_temp_pv[cnt+WINDOW_SIZE])
+    }
+    #cnt = (cnt + 1) % len(c_temp_pv)  # 데이터를 순환하도록 cnt를 리셋합니다.
+    return jsonify(data)
 
-
-
+# ============================================================================================
+ 
 # 1번 공장 =======================================================================================
 @bp.route('/factory1')
 def factory1():

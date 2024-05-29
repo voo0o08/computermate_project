@@ -1,7 +1,15 @@
+
+:root {
+    --gray-color: #F2F2F2;
+    --text-color: #7E7E7E;
+    --white-color: #ffffff;
+    --green-color: #1FA680;
+}
+
 /* styles.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #F2F2F2;
 }
 
 .container {
@@ -16,7 +24,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    background-color: #f6f6f6; /* gray background */
+    background-color: #F2F2F2; /* gray background */
     /*margin-bottom: 10px;*/
     /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
     border-radius: 20px;
@@ -59,7 +67,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    background-color: #f6f6f6; /* gray background */
+    background-color: #F2F2F2; /* gray background */
     /*margin-bottom: 10px;*/
     /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
     border-radius: 20px;
@@ -86,14 +94,14 @@ body {
 }
 
 .img-box:hover {
-    background-color: #76c7c0; /* Green background on hover */
+    background-color: var(--green-color); /* Green background on hover */
 }
 
 .right-panel {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: #f6f6f6; /* gray background */
+    background-color: #F2F2F2; /* gray background */
     padding: 20px;
     border-radius: 8px;
     flex-wrap: wrap;
@@ -104,14 +112,14 @@ body {
 }
 
 .graph-box, .time-box {
-    background-color: #f9f9f9;
+    background-color: #F2F2F2;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar-container {
-    background-color: #e0e0e0;
+    background-color: var(--text-color);
     border-radius: 4px;
     overflow: hidden;
     height: 20px;
@@ -119,7 +127,7 @@ body {
 }
 
 .progress-bar {
-    background-color: #76c7c0;
+    background-color: var(--green-color);
     height: 100%;
 }
 
@@ -132,7 +140,7 @@ body {
 }
 
 .progress-bar-time-fill {
-    background-color: #76c7c0;
+    background-color: #var(--green-color);
     height: 100%;
 }
 

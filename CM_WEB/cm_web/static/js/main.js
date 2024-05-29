@@ -266,4 +266,4 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(updateAllGauges, term);
 });
 
-let term=100;
+let term=500;

@@ -9,11 +9,11 @@
 {#<div class="card m-auto" style="width: 90%;">#}
 <div id="chart1_box">
     <div id="col_select_box">
-        <button type="submit" value="k_rpm" id="k_rpm" class="button_ active">k_rpm</button>
-        <button type="submit" value="E_scr" id="E_scr" class="button_">E_scr</button>
-        <button type="submit" value="c_temp" id="c_temp" class="button_">c_temp</button>
-        <button type="submit" value="n_temp" id="n_temp" class="button_">n_temp</button>
-        <button type="submit" value="s_temp" id="s_temp" class="button_">s_temp</button>
+        <button type="submit" value="k_rpm" id="k_rpm" class="button_ active">칼날 속도</button>
+        <button type="submit" value="E_scr" id="E_scr" class="button_">스크류 속도</button>
+        <button type="submit" value="c_temp" id="c_temp" class="button_">챔버 온도</button>
+        <button type="submit" value="n_temp" id="n_temp" class="button_">노즐 온도</button>
+        <button type="submit" value="s_temp" id="s_temp" class="button_">스크류 온도</button>
     </div>
 
 <!--chart1 = line-->
@@ -28,23 +28,26 @@
 <div class="chart-container">
     <div class="left-panel_dash">
         <div class="chart2_box">
-          <div id="donut-chart-1" class="chart"></div>
-          <div id="donut-chart-2" class="chart"></div>
-          <div id="donut-chart-3" class="chart"></div>
+            <div id="donut-chart-1" class="chart"></div>
+            <div id="donut-chart-2" class="chart"></div>
+            <div id="donut-chart-3" class="chart"></div>
         </div>
     </div>
     <div class="right-panel_dash">
         <div class="chart3_box">
             <div id="gauges-container">
-                <div>
-                    <div id="gauge-chart-1"></div>
-                    <div id="gauge-chart-2"></div>
+                <div class="gauge-row">
+                    <div class="left-gauge_dash">
+                        <div class="gauge large" id="gauge-chart-1"></div>
+                        <div class="gauge large" id="gauge-chart-2"></div>
+                    </div>
+                    <div class="right-gauge_dash">
+                        <div class="gauge small" id="gauge-chart-3"></div>
+                        <div class="gauge small" id="gauge-chart-4"></div>
+                        <div class="gauge small" id="gauge-chart-5"></div>
+                        <div class="gauge small" id="gauge-chart-6"></div>
+                    </div>
                 </div>
-                <div>
-                    <div id="gauge-chart-3"></div>
-                    <div id="gauge-chart-4"></div>
-                    <div id="gauge-chart-5"></div>
-                <div>
             </div>
         </div>
     </div>

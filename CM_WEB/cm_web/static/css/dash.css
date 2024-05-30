@@ -1,3 +1,5 @@
+/* <div class="left-panel_dash"> -> 개발자가 보기 편하기용 의미X
+        <div class="chart2_box"> -> 이걸로 조정*/
 :root {
     --gray-color: #F2F2F2;
     --text-color: #7E7E7E;
@@ -70,7 +72,7 @@
 .chart2_box {
     display: flex;
     /*flex-wrap: ;*/
-    text-align: center;
+    justify-content: center; /* 가로 축 중앙 정렬 */
     position: relative;
     border-radius: 30px;
     background-color: var(--gray-color);
@@ -80,15 +82,12 @@
     margin-top:0px;
     margin-right: 0px;
     height: 44%;
-
-    /*max-width:45%;*/
-    /*max-height:45%;*/
-    /*max-width: 150px; !* Maximum width set to 150px *!*/
-    /*height: 150px; !* Height set to 150px *!*/
     justify-content: space-around;
-
-    /*height: 100%;*/
 }
+
+/* .donut-chart {
+    background-color: aquamarine;
+} */
 
 /* 컨테이너 스타일 추가 */
 .chart-container {
@@ -96,10 +95,7 @@
     height: 100%;
 }
 
-/*.left-panel_dash, .right-panel_dash {*/
-/*    flex: 1;*/
-/*    padding: 10px;*/
-/*}*/
+
 
 .chart {
     /*width:110%;*/
@@ -108,44 +104,6 @@
     margin-top: 50px;
 
 }
-
-/*.chart-container {*/
-/*    display: flex;*/
-/*}*/
-
-/*.left-panel_dash, .right-panel_dash {*/
-/*    flex: 1;*/
-/*    padding: 10px;*/
-/*}*/
-
-/*.chart2_box {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    text-align: center;*/
-/*    margin: 20px;*/
-/*}*/
-
-/*.chart2_box > .chart {*/
-/*    flex: 1 1 150px; !* Flex item with minimum 150px width *!*/
-/*    margin: 10px;*/
-/*    max-width: 150px; !* Maximum width set to 150px *!*/
-/*    height: 150px; !* Height set to 150px *!*/
-/*}*/
-
-/*.chart3_box {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*    margin: 20px;*/
-/*}*/
-
-/*#gauges-container {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    width: 100%;*/
-/*}*/
 
 .gauge-row {
     display: flex;

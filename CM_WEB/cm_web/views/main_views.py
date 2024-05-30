@@ -9,12 +9,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 
+
 WINDOW_SIZE = 50
 cnt = 0
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
 CM_DF = pd.read_csv("./cm_web/static/data/for_web2.csv")
+DATA_LENGTH = len(CM_DF)
+
 
 graph_idx = 2 # 기본값 => rpm
 name_list = ("E_scr", "c_temp", "k_rpm", "n_temp", "s_temp")
@@ -98,6 +101,52 @@ def draw_graph():
     new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
     return new_graphJSON
     
+# 도넛 차트 그리는 함수 
+def draw_donut(title, colors):
+    global cnt
+    global DATA_LENGTH
+
+    col_pv = sr_list[graph_idx][0]
+    col_sv = sr_list[graph_idx][1]
+    new_fig = go.Figure(data=[go.Pie(
+        values=[cnt, DATA_LENGTH - cnt],
+        labels=['Used', 'Remaining'],
+        marker=dict(colors=colors),
+        textinfo='none',
+        hole=.4,
+        rotation=0,
+        direction='clockwise',
+        type='pie'
+    )])
+
+    # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
+    new_fig.update_layout(
+        title=dict(
+            text=title,
+            x=0.5,  # 중앙 정렬
+            xanchor='center',  # 중앙 정렬
+            font=dict(size=20)  # 제목 폰트 크기
+        ),
+        height=280,
+        width=280,
+        showlegend=False,
+        paper_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
+        plot_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
+        margin=dict(t=50, b=0, l=0, r=0),
+        annotations=[
+            dict(
+                font=dict(size=20),
+                showarrow=False,
+                text=str(cnt),
+                x=0.5,
+                y=0.5
+            )
+        ]
+    )
+    
+    new_donutJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return new_donutJSON
+    
 
 
 # @=>데코레이터 
@@ -114,22 +163,7 @@ def dash():
     # global cnt
     print("그래프 초기화")  # 로그 추가 -> python terminal에서 확인
     
-    # col_pv = sr_list[graph_idx][0]
-    # col_sv = sr_list[graph_idx][1]
-    # new_fig = px.line(x=range(WINDOW_SIZE), y=col_pv[cnt:cnt+WINDOW_SIZE], markers=False)
-    # new_fig.update_traces(name="pv", showlegend=True) # 기본 상태 그래프는 showlegend 안하면 밑에 sv 범례만 뜸 
-
-
-    # # setting value 그래프 추가 
-    # new_fig.add_trace(go.Scatter(x=list(range(WINDOW_SIZE)), y=col_sv[cnt:cnt+WINDOW_SIZE], name="sv"))
-
-    # # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
-    # new_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',
-    #                       margin=dict(t=0, b=0, l=0, r=0),
-    #                       yaxis_range=yaxis_list[graph_idx],
-    #                       height=250)
-    
-    # new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
+   
     new_graphJSON = draw_graph()
     
     return render_template("dash.html", title="Home", graph1JSON=new_graphJSON)
@@ -143,33 +177,26 @@ def update_chart():
     # global WINDOW_SIZE
     # global CM_DF
     # global cnt
-    print("Updating chart1...")  # 로그 추가 -> python terminal에서 확인
-   
-    # pv 측정값 그래프 그리기 
-    # col_pv = sr_list[graph_idx][0]
-    # col_sv = sr_list[graph_idx][1]
-    # new_fig = px.line(x=range(WINDOW_SIZE), y=col_pv[cnt:cnt+WINDOW_SIZE], markers=False)
-    # new_fig.update_traces(name="pv", showlegend=True) # 기본 상태 그래프는 showlegend 안하면 밑에 sv 범례만 뜸 
-   
-
-    # # setting value 그래프 추가 
-    # new_fig.add_trace(go.Scatter(x=list(range(WINDOW_SIZE)), y=col_sv[cnt:cnt+WINDOW_SIZE], name="sv"))
-
-    # # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
-    # new_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',
-    #                       margin=dict(t=0, b=0, l=0, r=0),
-    #                       yaxis_range=yaxis_list[graph_idx],
-    #                       height=250,
-    #                       xaxis_title="Time (s)",
-    #                       yaxis_title=name_list[graph_idx] # y축 이름 설정
-    #                       )
     
-    # new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    # print("Updating chart1...")  # 로그 추가 -> python terminal에서 확인
+   
+   
     new_graphJSON = draw_graph()
     # cnt += 1 # WINDOW 이동
     return jsonify({"new_graphJSON": new_graphJSON, "msg" : "화이팅!"})
 
-# 계기판 표현=================================================================================
+
+# 규량 : 도넛 차트==================================================================================
+@bp.route('/update_donut')
+def update_donut():
+    print("도넛 업데이트 중...")
+    new_donut2JSON = draw_donut("생산량", ['#1FA680', '#ffffff'])
+    new_donut3JSON = draw_donut("불량", ['#FFA500', '#ffffff'])
+    return jsonify({"new_donut2JSON": new_donut2JSON, "new_donut3JSON":new_donut3JSON," msg" : "도넛 차트 data.msg"})
+
+
+
+# 규량 : 계기판 표현=================================================================================
 @bp.route('/update_gauges')
 def update_gauges():
     global cnt

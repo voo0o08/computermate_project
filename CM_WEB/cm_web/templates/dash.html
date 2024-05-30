@@ -28,9 +28,12 @@
 <div class="chart-container">
     <div class="left-panel_dash">
         <div class="chart2_box">
-            <div id="donut-chart-1" class="chart"></div>
-            <div id="donut-chart-2" class="chart"></div>
-            <div id="donut-chart-3" class="chart"></div>
+            <div id="donut-chart-2" class="donut-chart">
+                <script type="application/json" id="donut2-data">{{ donut2JSON | safe }}</script>
+            </div>
+            <div id="donut-chart-3" class="donut-chart">
+                <script type="application/json" id="donut3-data">{{ donut3JSON | safe }}</script>
+            </div>
         </div>
     </div>
     <div class="right-panel_dash">
@@ -56,5 +59,4 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-<script src="{{ url_for('static', filename='js/gauge.js') }}"></script>
 {% endblock %}

@@ -14,7 +14,7 @@ cnt = 0
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
-CM_DF = pd.read_csv("./cm_web/static/data/for_web.csv")
+CM_DF = pd.read_csv("./cm_web/static/data/for_web2.csv")
 
 graph_idx = 2 # 기본값 => rpm
 name_list = ("E_scr", "c_temp", "k_rpm", "n_temp", "s_temp")
@@ -60,6 +60,9 @@ k_rpm_pv,k_rpm_sv -> 100 200
 n_temp_pv,n_temp_sv -> 65 75
 s_temp_pv,s_temp_s ->  65 75
 '''
+
+k_name_list = ["스크류 속도", "챔버 온도", "칼날 속도", "노즐 온도", "스크류 온도"]
+
 def draw_graph():
     global WINDOW_SIZE
     global CM_DF
@@ -82,7 +85,7 @@ def draw_graph():
                           yaxis_range=yaxis_list[graph_idx],
                           height=300,
                           xaxis_title="Time (s)",
-                          yaxis_title=name_list[graph_idx] # y축 이름 설정
+                          yaxis_title=k_name_list[graph_idx] # y축 이름 설정
                           )
     
     # x축 레이블 설정
@@ -172,11 +175,12 @@ def update_gauges():
     global cnt
     global WINDOW_SIZE
     data = {
-        "c_temp_pv": float(c_temp_pv[cnt+WINDOW_SIZE]),
-        "k_rpm_pv": float(k_rpm_pv[cnt+WINDOW_SIZE]),
-        "n_temp_pv": float(n_temp_pv[cnt+WINDOW_SIZE]),
-        "s_temp_pv": float(s_temp_pv[cnt+WINDOW_SIZE]),
-        "scale_pv": float(scale_pv[cnt+WINDOW_SIZE])
+        "챔버 온도": float(c_temp_pv[cnt+WINDOW_SIZE]),
+        "칼날 속도": float(k_rpm_pv[cnt+WINDOW_SIZE]),
+        "노즐 온도": float(n_temp_pv[cnt+WINDOW_SIZE]),
+        "스크류 온도": float(s_temp_pv[cnt+WINDOW_SIZE]),
+        "중량 예측": float(scale_pv[cnt+WINDOW_SIZE]),
+        "스크류 속도": float(E_scr_pv[cnt+WINDOW_SIZE])
     }
     #cnt = (cnt + 1) % len(c_temp_pv)  # 데이터를 순환하도록 cnt를 리셋합니다.
     return jsonify(data)
@@ -208,6 +212,8 @@ def click_button():
     data = request.get_json()
     print(data)
     name_list = ["E_scr", "c_temp", "k_rpm", "n_temp", "s_temp"]
+
+
     for i in range(len(name_list)):
         if data["button"] == name_list[i]:
             graph_idx = i

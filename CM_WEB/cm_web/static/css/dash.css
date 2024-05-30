@@ -108,3 +108,96 @@
     margin-top: 50px;
 
 }
+
+/*.chart-container {*/
+/*    display: flex;*/
+/*}*/
+
+/*.left-panel_dash, .right-panel_dash {*/
+/*    flex: 1;*/
+/*    padding: 10px;*/
+/*}*/
+
+/*.chart2_box {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+/*    margin: 20px;*/
+/*}*/
+
+/*.chart2_box > .chart {*/
+/*    flex: 1 1 150px; !* Flex item with minimum 150px width *!*/
+/*    margin: 10px;*/
+/*    max-width: 150px; !* Maximum width set to 150px *!*/
+/*    height: 150px; !* Height set to 150px *!*/
+/*}*/
+
+/*.chart3_box {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    margin: 20px;*/
+/*}*/
+
+/*#gauges-container {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: 100%;*/
+/*}*/
+
+.gauge-row {
+    display: flex;
+    width: 40%;
+}
+
+.gauge {
+    /*flex: 1 1 50%; !* Each gauge takes up 50% width *!*/
+    /*margin: 10px;*/
+}
+
+.double-width {
+    flex: 1 1 100%; /* Double width for combining two rows */
+    /*height: 250px; !* Adjust height as necessary *!*/
+}
+
+.left-gauge_dash {
+    display: flex;
+    flex-direction: row;
+    /*justify-content: center;*/
+}
+
+.right-gauge_dash {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    /*height:40%;*/
+    width: 20%;
+    height:20%;
+    background: green;
+}
+
+.gauge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background: #F2F2F2;*/
+    border-radius: 10px;
+    background: red;
+    height: 50%;
+    /*margin: 10px;*/
+}
+
+.gauge.large {
+    width: 10%;
+    height: 20%;
+    background: yellow;
+}
+
+.gauge.small {
+    width: 30%;
+    height: 30%;
+    background: white;
+    margin:5%;
+}

@@ -218,21 +218,25 @@ document.addEventListener("DOMContentLoaded", function() {
       type: "indicator",
       mode: "gauge+number",
       value: 0,
-      title: { text: title, font: { size: 24 } },
+      title: { text: title, font: { size: 15 } },
       gauge: {
-        axis: { range: range },
+        axis: { range: range*1.1 },
         bar: { color: "lightgray" },
         steps: [
-          { range: [range[0], (range[1] - range[0]) * 0.5 + range[0]], color: "white" },
-          { range: [(range[1] - range[0]) * 0.5 + range[0], range[1]], color: "green" }
+          { range: [range[0], (range[1] - range[0]) * 0.5 + range[0]], color: "yellow" },
+          { range: [(range[1] - range[0]) * 0.5 + range[0], range[1]], color: "green" },
+          { range: [range[1], (range[1] -range[0])* 0.5 + range[1]], color: "yellow" }
+
         ]
       }
     }];
 
     var layout = {
-      width: 300,
-      height: 300,
-      margin: { t: 0, b: 0 }
+      width: 200,
+      height: 200,
+      margin: { t: 0, b: 0 },
+      paper_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
+      plot_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
     };
 
     Plotly.newPlot(id, data, layout);
@@ -252,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
     createGaugeChart('gauge-chart-3', '노즐 온도(℃)', [55, 75]);
     createGaugeChart('gauge-chart-4', '스크류 온도(℃)', [55, 75]);
     createGaugeChart('gauge-chart-5', '중량 무게(g)', [2, 4]);
+    createGaugeChart('gauge-chart-6', '스크류 속도', [6,9]);
   }
 
   function updateAllGauges() {
@@ -261,6 +266,8 @@ document.addEventListener("DOMContentLoaded", function() {
       updateGaugeChart('gauge-chart-3', data.n_temp_pv);
       updateGaugeChart('gauge-chart-4', data.s_temp_pv);
       updateGaugeChart('gauge-chart-5', data.scale_pv);
+      updateGaugeChart('gauge-chart-6', data.E_scr_pv);
+
     }).fail(function(jqXHR, textStatus, errorThrown) {
       console.error("AJAX request failed:", textStatus, errorThrown);
     });

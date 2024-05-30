@@ -1,3 +1,5 @@
+let term=500;
+
 var $j = jQuery.noConflict(); // $j로 jQuery 객체 저장 -> 이거 없으면  충돌남
 console.log("jQuery type:", typeof $j);  // jQuery가 올바르게 로드되었는지 확인
 
@@ -17,17 +19,7 @@ $j(document).ready(function() {
     console.error("#graph1-data element not found");
   }
 
-  // // buttons = 버튼 전체 선택 
-  // let buttons = document.querySelectorAll('.updatemenu-item-rect');
-  // console.log(`======= buttons =======`)
-  // console.log(`${buttons}`)
-  // // 각 버튼에 대해 클릭 이벤트 리스너 추가
-  // buttons.forEach(button => {
-  //   button.onclick = function() {
-  //     console.log('안녕하세요!');
-  //   };
-  // });
-  
+
 
 // 그래프 업데이트 
 function updateChart(now_button) {
@@ -48,20 +40,8 @@ function updateChart(now_button) {
   }
   setInterval(updateChart, term);
 });
-// ready 끝
+// $(document).ready 끝
 
-// let now_button = "E_scr" // 그래프 초기 값 설정 
-// // buttons = 버튼 전체 선택 
-// let buttons = document.querySelectorAll('.button_');
-
-// console.log(`======= buttons =======`)
-// console.log(`${buttons}`)
-// // 각 버튼에 대해 클릭 이벤트 리스너 추가
-// buttons.forEach(button => {
-//   button.onclick = function() {
-//     console.log(`Button text => ${this.textContent}`);
-//   };
-//   now_button = this.textContent
 
 document.addEventListener("DOMContentLoaded", function() {
   // 버튼들을 가져옵니다.
@@ -102,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+//////////////////////////////////////////////////////////// 규량님 
 // 도넛 차트
 // 초기 도넛 차트를 생성합니다.
 function createDonutChart(id, value, title) {
@@ -150,7 +131,7 @@ function createDonutChart(id, value, title) {
   Plotly.newPlot(id, data, layout);
 }
 
-// 도넛 차트를 실시간으로 업데이트하는 함수
+// 도넛 차트를 실시간으로 업데이트하는 함수 restyle
 function updateDonutChart(id, value) {
   var colors;
   if(id === 'donut-chart-3') {
@@ -159,6 +140,8 @@ function updateDonutChart(id, value) {
     colors = ['#1FA680', '#f2f2f2'];
   }
 
+  var direction = value > 150 ? 'counterclockwise' : 'clockwise'; // 값에 따라 방향 설정
+  
   Plotly.restyle(id, 'values', [[value, 300 - value]]);
   Plotly.restyle(id, 'marker.colors', [colors]); // 막대 색상 업데이트
   Plotly.relayout(id, {
@@ -170,11 +153,12 @@ function updateDonutChart(id, value) {
           text: value.toString(),
           x: 0.5,
           y: 0.5
-      }]
+      }],
+      direction: direction // 항상 시계 방향으로 회전
   });
 }
 
-// 초기 차트 생성
+// 초기 차트 생성 (id, value, title)
 createDonutChart('donut-chart-1', 500, '총 생산량'); // 총 생산량을 500으로 변경
 createDonutChart('donut-chart-2', 400, '일일 생산량'); // 일일 생산량을 400으로 변경
 createDonutChart('donut-chart-3', 100, '불량품 수'); // 불량품 수를 100으로 변경
@@ -190,24 +174,24 @@ setInterval(function() {
   value1 = (value1 % 301) + 1;
   value2 = (value2 % 301) + 1;
   value3 = (value3 % 301) + 1;
+  console.log(value1, value2, value3) //1~300까지 일정하게 상승 
 
   // 도넛 차트 업데이트 함수 호출
   updateDonutChart('donut-chart-1', value1);
   updateDonutChart('donut-chart-2', value2);
   updateDonutChart('donut-chart-3', value3);
-}, 100); // 0.1초마다 업데이트
+}, 50);
 
-document.addEventListener("DOMContentLoaded", function() {
-  let buttons = document.querySelectorAll('.button_');
+// document.addEventListener("DOMContentLoaded", function() {
+//   let buttons = document.querySelectorAll('.button_');
 
-  buttons.forEach(button => {
-      button.addEventListener('click', function() {
-          buttons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
-      });
-  });
-});
-
+//   buttons.forEach(button => {
+//       button.addEventListener('click', function() {
+//           buttons.forEach(btn => btn.classList.remove('active'));
+//           this.classList.add('active');
+//       });
+//   });
+// });
 
 
 
@@ -277,4 +261,3 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(updateAllGauges, term);
 });
 
-let term=500;

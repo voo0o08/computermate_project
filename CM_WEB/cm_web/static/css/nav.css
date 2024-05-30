@@ -70,20 +70,6 @@ a {
     color: #fff; /* 텍스트 색상 변경 */
 }
 
-/*.nav_menu .factory2 a {*/
-/*    background-color: #efae6a;*/
-/*    display: block;*/
-/*    padding: 10px 40px;*/
-/*    text-decoration: none;*/
-/*    color: var(--text-color);*/
-/*    !* border: 1px solid #ddd; *!*/
-/*    border-radius: 20px;*/
-/*    transition: background-color 0.3s;*/
-/*    font-size:20px;*/
-/*    --text-color: white;*/
-/*    !*font-style:bold;*!*/
-/*}*/
-
 
 /* 여기서 부터 hover */
 .nav_menu li a:hover {

@@ -127,9 +127,13 @@ function createDonutChart(id, value, title) {
 
   var layout = {
       title: title,
-      height: 400,
-      width: 400,
+      height: 220,
+      width: 220,
       showlegend: false,
+      paper_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
+      plot_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
+      margin: { t: 30, b: 0, l: 0, r: 0 },
+
       annotations: [
           {
               font: {

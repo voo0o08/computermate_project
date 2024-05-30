@@ -52,7 +52,7 @@ x_labels = [f"{int(x)}초" if x != 0 else "현재" for x in x_values]
 # 5초 단위로 x축 레이블 설정
 tickvals = list(range(0, WINDOW_SIZE, 5)) + [WINDOW_SIZE-1]  # 0부터 WINDOW_SIZE까지 5 간격으로, 마지막에 0초전 추가
 ticktext = [x_labels[i] for i in tickvals]
-
+ticktext[0] = " "
 '''
 E_scr_pv,E_scr_sv, -> 0, 10
 c_temp_pv,c_temp_sv -> 65 75
@@ -77,10 +77,10 @@ def draw_graph():
 
     # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
     new_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',
-                          margin=dict(t=0, b=0, l=0, r=0),
+                          margin=dict(t=50, b=50, l=100, r=0),
                           xaxis_range=[0, WINDOW_SIZE],  
                           yaxis_range=yaxis_list[graph_idx],
-                          height=250,
+                          height=300,
                           xaxis_title="Time (s)",
                           yaxis_title=name_list[graph_idx] # y축 이름 설정
                           )

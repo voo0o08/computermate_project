@@ -6,44 +6,49 @@
   </h1>
 </div> -->
 
-<div class="card m-auto" style="width: 90%;">
-  <div id="chart1_box">
+{#<div class="card m-auto" style="width: 90%;">#}
+<div id="chart1_box">
     <div id="col_select_box">
-      <button type="submit" value="k_rpm" id="k_rpm" class="button_ active">k_rpm</button>
-      <button type="submit" value="E_scr" id="E_scr" class="button_">E_scr</button>
-      <button type="submit" value="c_temp" id="c_temp" class="button_">c_temp</button>
-      <button type="submit" value="n_temp" id="n_temp" class="button_">n_temp</button>
-      <button type="submit" value="s_temp" id="s_temp" class="button_">s_temp</button>
+        <button type="submit" value="k_rpm" id="k_rpm" class="button_ active">k_rpm</button>
+        <button type="submit" value="E_scr" id="E_scr" class="button_">E_scr</button>
+        <button type="submit" value="c_temp" id="c_temp" class="button_">c_temp</button>
+        <button type="submit" value="n_temp" id="n_temp" class="button_">n_temp</button>
+        <button type="submit" value="s_temp" id="s_temp" class="button_">s_temp</button>
     </div>
-    
-    <!--chart1 = line-->
-    <div id="chart1"></div>
-      <!-- <p id="temp">
-        1번 차트 입니다
-      </p> -->
-      <script type="application/json" id="graph1-data">{{ graph1JSON | safe }}</script>
-    </div>
-  </div>
-</div>
 
-<!-- 도넛 차트 -->
+<!--chart1 = line-->
+    <div id="chart1">
+    <!-- <p id="temp">
+    1번 차트 입니다
+    </p> -->
+    <script type="application/json" id="graph1-data">{{ graph1JSON | safe }}</script>
+    </div>
+</div>
+<!-- 도넛 차트 및 게이지 바 -->
 <div class="chart-container">
-  <div id="donut-chart-1" class="chart"></div>
-  <div id="donut-chart-2" class="chart"></div>
-  <div id="donut-chart-3" class="chart"></div>
-</div>
-
-<!-- 게이지 -->
-<div id="chart1" style="width:600px;height:400px;"></div>
-    <div id="gauges-container">
-        <div id="gauge-chart-1"></div>
-        <div id="gauge-chart-2"></div>
-        <div id="gauge-chart-3"></div>
-        <div id="gauge-chart-4"></div>
-        <div id="gauge-chart-5"></div>
+    <div class="left-panel_dash">
+        <div class="chart2_box">
+          <div id="donut-chart-1" class="chart"></div>
+          <div id="donut-chart-2" class="chart"></div>
+          <div id="donut-chart-3" class="chart"></div>
+        </div>
     </div>
-    
-
+    <div class="right-panel_dash">
+        <div class="chart3_box">
+            <div id="gauges-container">
+                <div>
+                    <div id="gauge-chart-1"></div>
+                    <div id="gauge-chart-2"></div>
+                </div>
+                <div>
+                    <div id="gauge-chart-3"></div>
+                    <div id="gauge-chart-4"></div>
+                    <div id="gauge-chart-5"></div>
+                <div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- plotly -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

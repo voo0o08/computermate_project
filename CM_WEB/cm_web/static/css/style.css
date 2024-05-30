@@ -139,10 +139,10 @@ body {
     margin-top: 10px;
 }
 
-.progress-bar-time-fill {
-    background-color: #var(--green-color);
-    height: 100%;
-}
+/*.progress-bar-time-fill {*/
+/*    background-color: #var(--green-color);*/
+/*    height: 100%;*/
+/*}*/
 
 .time-labels {
     display: flex;

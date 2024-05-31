@@ -46,7 +46,7 @@ sr_list = ((E_scr_pv, E_scr_sv),
            (s_temp_pv, s_temp_sv))
 yaxis_list = ((0, 10),
               (55, 75),
-              (100, 200),
+              (120, 220),
               (55, 75),
               (55, 75))
 x_values = np.linspace(-WINDOW_SIZE, 0, WINDOW_SIZE, endpoint=False)
@@ -87,7 +87,7 @@ def draw_graph():
                           xaxis_range=[0, WINDOW_SIZE],  
                           yaxis_range=yaxis_list[graph_idx],
                           height=300,
-                          xaxis_title="Time (s)",
+                          xaxis_title="경과시간 (초)",
                           yaxis_title=k_name_list[graph_idx] # y축 이름 설정
                           )
     
@@ -210,6 +210,7 @@ def update_gauges():
         "스크류 속도": float(E_scr_pv[cnt+WINDOW_SIZE])
     }
     #cnt = (cnt + 1) % len(c_temp_pv)  # 데이터를 순환하도록 cnt를 리셋합니다.
+    # print('게이지 오류!',c_temp_pv[cnt+WINDOW_SIZE])
     return jsonify(data)
 
 # ============================================================================================

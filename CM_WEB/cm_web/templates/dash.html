@@ -28,12 +28,9 @@
 <div class="chart-container">
     <div class="left-panel_dash">
         <div class="chart2_box">
-            <div id="donut-chart-2" class="donut-chart">
-                <script type="application/json" id="donut2-data">{{ donut2JSON | safe }}</script>
-            </div>
-            <div id="donut-chart-3" class="donut-chart">
-                <script type="application/json" id="donut3-data">{{ donut3JSON | safe }}</script>
-            </div>
+            <div id="donut-chart-1" class="chart"></div>
+            <div id="donut-chart-2" class="chart"></div>
+            <div id="donut-chart-3" class="chart"></div>
         </div>
     </div>
     <div class="right-panel_dash">
@@ -45,10 +42,14 @@
                         <div class="gauge large" id="gauge-chart-2"></div>
                     </div>
                     <div class="right-gauge_dash">
-                        <div class="gauge small" id="gauge-chart-3"></div>
-                        <div class="gauge small" id="gauge-chart-4"></div>
-                        <div class="gauge small" id="gauge-chart-5"></div>
-                        <div class="gauge small" id="gauge-chart-6"></div>
+                        <div class="right-gauge_top_dash">
+                            <div class="gauge small" id="gauge-chart-3"></div>
+                            <div class="gauge small" id="gauge-chart-4"></div>
+                        </div>
+                        <div class="right-gauge_bottom_dash">
+                            <div class="gauge small" id="gauge-chart-5"></div>
+                            <div class="gauge small" id="gauge-chart-6"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,4 +60,5 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{#<script src="{{ url_for('static', filename='js/gauge.js') }}"></script>#}
 {% endblock %}

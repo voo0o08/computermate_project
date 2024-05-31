@@ -38,9 +38,9 @@ $j(document).ready(function() {
 function updateChart(now_button) {
   // update_chart 뭔지 잘 보기 여러가지 version이 있어욤
   $j.getJSON('/update_chart', function(data) {
-    console.log("Data received:", data);  // 콘솔 로그 추가
-    console.log(data.msg);
-    
+    // console.log("Data received:", data);  // 콘솔 로그 추가
+    // console.log(data.msg);
+    //
     try {
       var new_graph = JSON.parse(data.new_graphJSON);  // JSON 문자열을 객체로 변환
       Plotly.react("chart1", new_graph.data, new_graph.layout);  // 차트 업데이트
@@ -224,30 +224,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // 게이지 JS (새로 추가됨)
 document.addEventListener("DOMContentLoaded", function() {
-  function createGaugeChart(id, title, range) {
+  function createGaugeChart(id, title, range, steps) {
     var data = [{
       type: "indicator",
-      mode: "gauge+number",
+      mode: "gauge+number+delta",
       value: 0,
-      title: { text: title, font: { size: 15 } },
+      title: { text: title, font: { size: 15 }},
+      delta: { reference: (range[0]+range[1])*0.5 },
       gauge: {
-        axis: { range: range*1.1 },
-        bar: { color: "lightgray" },
-        steps: [
-          { range: [range[0], (range[1] - range[0]) * 0.5 + range[0]], color: "yellow" },
-          { range: [(range[1] - range[0]) * 0.5 + range[0], range[1]], color: "green" },
-          { range: [range[1], (range[1] -range[0])* 0.5 + range[1]], color: "yellow" }
+        axis: { range: range, startangle: -135, endangle: 135 }, // 각도를 270도로 설정
+        bar: { color: "white" },
+        steps: steps,
+        bordercolor: 'rgba(0,0,0,0)', // 테두리선을 투명하게 설정
 
-        ]
+
+
       }
     }];
 
     var layout = {
-      width: 200,
-      height: 200,
-      margin: { t: 0, b: 0 },
+      width: 260,
+      height: 260,
       paper_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
       plot_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
+      margin: { t: 100, b: 100, l:0, r:0},
     };
 
     Plotly.newPlot(id, data, layout);
@@ -256,29 +256,66 @@ document.addEventListener("DOMContentLoaded", function() {
   function updateGaugeChart(id, value) {
     var dataUpdate = {
       value: [value]
-    };
 
+    };
+    console.log(dataUpdate)
     Plotly.update(id, dataUpdate);
   }
 
   function createAllGauges() {
-    createGaugeChart('gauge-chart-1', '챔버 온도(℃)', [55, 75]);
-    createGaugeChart('gauge-chart-2', '칼날 RPM', [100, 200]);
-    createGaugeChart('gauge-chart-3', '노즐 온도(℃)', [55, 75]);
-    createGaugeChart('gauge-chart-4', '스크류 온도(℃)', [55, 75]);
-    createGaugeChart('gauge-chart-5', '중량 무게(g)', [2, 4]);
-    createGaugeChart('gauge-chart-6', '스크류 속도', [6,9]);
+    createGaugeChart('gauge-chart-1', '중량 무게(g)', [2, 4], [
+      { range: [2, 2.4], color: "#ef3d21" },
+      { range: [2.4, 2.8], color: "#FFA500" },
+      { range: [2.8, 3.2], color: "#1FA680" },
+      { range: [3.2, 3.6], color: "#FFA500" },
+      { range: [3.6, 4], color: "#ef3d21" }
+    ]);
+    createGaugeChart('gauge-chart-2', '칼날 RPM', [130, 230], [
+      { range: [130, 150], color: "#ef3d21" },
+      { range: [150, 170], color: "#FFA500" },
+      { range: [170, 190], color: "#1FA680" },
+      { range: [190, 210], color: "#FFA500" },
+      { range: [210, 230], color: "#ef3d21" }
+    ]);
+    createGaugeChart('gauge-chart-3', '노즐 온도(℃)', [45, 95], [
+      { range: [45, 55], color: "#ef3d21" },
+      { range: [55, 65], color: "#FFA500" },
+      { range: [65, 75], color: "#1FA680" },
+      { range: [75, 85], color: "#FFA500" },
+      { range: [85, 95], color: "#ef3d21" }
+    ]);
+    createGaugeChart('gauge-chart-4', '스크류 온도(℃)', [45, 95], [
+      { range: [45, 55], color: "#ef3d21" },
+      { range: [55, 65], color: "#FFA500" },
+      { range: [65, 75], color: "#1FA680" },
+      { range: [75, 85], color: "#FFA500" },
+      { range: [85, 95], color: "#ef3d21" }
+    ]);
+    createGaugeChart('gauge-chart-5', '챔버 온도(℃)', [45, 95], [
+      { range: [45, 55], color: "#ef3d21" },
+      { range: [55, 65], color: "#FFA500" },
+      { range: [65, 75], color: "#1FA680" },
+      { range: [75, 85], color: "#FFA500" },
+      { range: [85, 95], color: "#ef3d21" }
+    ]);
+    createGaugeChart('gauge-chart-6', '스크류 속도(E)', [5.5, 10.5], [
+      { range: [5.5, 6.5], color: "#ef3d21" },
+      { range: [6.5, 7.5], color: "#FFA500" },
+      { range: [7.5, 8.5], color: "#1FA680" },
+      { range: [8.5, 9.5], color: "#FFA500" },
+      { range: [9.5, 10.5], color: "#ef3d21" }
+    ]);
   }
 
   function updateAllGauges() {
     $j.getJSON('/update_gauges', function(data) {
-      updateGaugeChart('gauge-chart-1', data.c_temp_pv);
-      updateGaugeChart('gauge-chart-2', data.k_rpm_pv);
-      updateGaugeChart('gauge-chart-3', data.n_temp_pv);
-      updateGaugeChart('gauge-chart-4', data.s_temp_pv);
-      updateGaugeChart('gauge-chart-5', data.scale_pv);
-      updateGaugeChart('gauge-chart-6', data.E_scr_pv);
-
+      updateGaugeChart('gauge-chart-1', data['중량 예측']);
+      updateGaugeChart('gauge-chart-2', data['칼날 속도']);
+      updateGaugeChart('gauge-chart-3', data['노즐 온도']);
+      updateGaugeChart('gauge-chart-4', data['스크류 온도']);
+      updateGaugeChart('gauge-chart-5', data['챔버 온도']);
+      updateGaugeChart('gauge-chart-6', data['스크류 속도']);
+      // console.log(data.c_temp_pv, data.k_rpm_pv, data.n_temp_pv, data.s_temp_pv, data.scale_pv, data.E_scr_pv)
     }).fail(function(jqXHR, textStatus, errorThrown) {
       console.error("AJAX request failed:", textStatus, errorThrown);
     });
@@ -288,3 +325,4 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(updateAllGauges, term);
 });
 
+// let term=500;

@@ -17,6 +17,7 @@
     background-color: var(--gray-color);
     padding: 15px;
     margin: 15px;
+    /*margin-bottom: 25px;*/
     height: 50%;
 }
 
@@ -39,6 +40,8 @@
 
 #graph1-data {
     height:150%;
+    margin-bottom: 20px;
+    margin-top:10px;
 }
 
 /* 게이지 스타일 */
@@ -49,21 +52,28 @@
     position: relative;
     border-radius: 30px;
     background-color: var(--gray-color);
-    padding: 15px;
+    /*padding: 15px;*/
     /*margin: 15px;*/
-    height: 44%;
-    width: 780px;
+    height: 340px;
+    width: 860px;
     margin: 15px;
     margin-top:0px;
-    margin-left: 15px;
+    /*margin-left: 15px;*/
 
 }
 
 #gauges-container > div {
-    position: relative;
+    /*position: relative;*/
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    /*flex-wrap: ;*/
+    /*position: relative;*/
     border-radius: 30px;
     background-color: var(--gray-color);
-    height: 30%;
+    /*background: chartreuse;*/
+    height: 101%;
+    width:875px;
 
 
 }
@@ -72,16 +82,15 @@
 .chart2_box {
     display: flex;
     /*flex-wrap: ;*/
-    justify-content: center; /* 가로 축 중앙 정렬 */
     position: relative;
     border-radius: 30px;
     background-color: var(--gray-color);
     padding: 15px;
-    width: 780px;
+    width: 700px;
     margin: 15px;
     margin-top:0px;
     margin-right: 0px;
-    height: 44%;
+    height: 110%;
     justify-content: space-around;
 }
 
@@ -92,7 +101,7 @@
 /* 컨테이너 스타일 추가 */
 .chart-container {
     display: flex;
-    height: 100%;
+    height: 40%;
 }
 
 
@@ -101,39 +110,51 @@
     /*width:110%;*/
     /*background:    black;*/
     display: flex;
-    margin-top: 50px;
+    margin-top: 10px;
+    margin-left: 0px;
 
 }
 
 .gauge-row {
     display: flex;
     width: 40%;
+    height: 60%;
+    background: cornflowerblue;
 }
 
 .gauge {
     /*flex: 1 1 50%; !* Each gauge takes up 50% width *!*/
     /*margin: 10px;*/
+    /*background: coral;*/
 }
 
 .double-width {
     flex: 1 1 100%; /* Double width for combining two rows */
     /*height: 250px; !* Adjust height as necessary *!*/
+    background: chocolate;
 }
 
 .left-gauge_dash {
     display: flex;
     flex-direction: row;
+    /*background: magenta;*/
+    width:300px;
+    height: 80%;
+    margin-top:35px;
+
+    /*margin-left:30px;*/
     /*justify-content: center;*/
 }
 
 .right-gauge_dash {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-gap: 10px;
-    /*height:40%;*/
-    width: 20%;
-    height:20%;
-    background: green;
+    /*grid-gap: 10px;*/
+    height:300px;
+    /*width: 70%;*/
+    /*height:20%;*/
+    margin-left: 150px;
+    /*background: green;*/
 }
 
 .gauge {
@@ -142,20 +163,92 @@
     align-items: center;
     /*background: #F2F2F2;*/
     border-radius: 10px;
-    background: red;
-    height: 50%;
+    height: 200px;
+    /*margin-left:10px;*/
+    /*background: white;*/
+    /*height: 50%;*/
+    /*width: 30%;*/
+
     /*margin: 10px;*/
 }
 
 .gauge.large {
-    width: 10%;
-    height: 20%;
-    background: yellow;
+    position: relative;
+    flex: 1 1 100%; /* Double width for combining two rows */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400%;
+    margin-top: 100px;
+    /*background: white;*/
 }
 
 .gauge.small {
+    justify-content: center;
+    align-items: center;
     width: 30%;
     height: 30%;
-    background: white;
-    margin:5%;
+    margin-top: 30px;
+    /*background: white;*/
+    /*margin:5%;*/
+    /*margin:0px;*/
+}
+
+.right-gauge_top_dash {
+    margin-top: 40px;
+    margin-left: 40px;
+    margin-right:-20px;
+    width: 50%;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:-50px;
+
+}
+
+.right-gauge_bottom_dash {
+    margin-top: 40px;
+    margin-right:0px;
+    width: 50%;
+    margin-left:-40px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom:-50px;
+    height: 300px;
+
+}
+
+#gauge-chart-1 {
+    /*margin-top: 10px;*/
+    margin-right:40px;
+    margin-left:20px;
+    width: 50%;
+    height: 20%;
+
+}
+
+#gauge-chart-2 {
+    /*margin-top: 10px;*/
+    margin-right:40px;
+    margin-left: 25px;
+    width: 50%;
+    height: 20%;
+}
+
+#gauge-chart-3 {
+    /*margin-top: 10px;*/
+    /*margin-right:40px;*/
+    width: 30%;
+    height: 30%;
+}
+
+.right-panel_dash{
+    height: 30%;
+
+}
+
+.left-panel_dash{
+
 }

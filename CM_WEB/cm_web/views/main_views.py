@@ -178,9 +178,12 @@ def dash():
 
 @bp.route("/total")
 def total():
-    
-    
     return render_template("total.html")
+
+
+@bp.route("/learning")
+def learning():
+    return render_template("learning.html")
 
 
 # 차트는 여기서 업데이트됨

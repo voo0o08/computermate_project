@@ -1,0 +1,27 @@
+:root {
+    --gray-color: #F2F2F2;
+    --text-color: #7E7E7E;
+    --white-color: #ffffff;
+    --green-color: #1FA680;
+}
+
+.total_container{
+    /* background-color: bisque; */
+    position: absolute;
+    display: flex;
+    inset: 15px;
+    gap: 15px; /* Add gap between the left and right sections */
+}
+
+/*flex = 1:1*/
+#total_left{
+    background-color: var(--gray-color);
+    flex: 1; /* Make it take up half the remaining space */
+    border-radius: 15px;
+}
+
+#total_right{
+    background-color: var(--gray-color);
+    flex: 2; /* Make it take up half the remaining space */
+    border-radius: 15px;
+}

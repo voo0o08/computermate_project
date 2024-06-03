@@ -83,7 +83,7 @@ def draw_graph():
 
     # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
     new_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',
-                          margin=dict(t=50, b=50, l=100, r=0),
+                          margin=dict(t=30, b=30, l=100, r=0),
                           xaxis_range=[0, WINDOW_SIZE],  
                           yaxis_range=yaxis_list[graph_idx],
                           height=300,
@@ -125,17 +125,17 @@ def draw_donut(title, colors):
             text=title,
             x=0.5,  # 중앙 정렬
             xanchor='center',  # 중앙 정렬
-            font=dict(size=20)  # 제목 폰트 크기
+            font=dict(size=15)  # 제목 폰트 크기
         ),
-        height=280,
-        width=280,
+        height=230,
+        width=230,
         showlegend=False,
         paper_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
         plot_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
-        margin=dict(t=50, b=0, l=0, r=0),
+        margin=dict(t=40, b=0, l=0, r=0),
         annotations=[
             dict(
-                font=dict(size=20),
+                font=dict(size=15),
                 showarrow=False,
                 text=str(cnt),
                 x=0.5,

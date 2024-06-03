@@ -222,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
 // 게이지 JS (새로 추가됨)
 document.addEventListener("DOMContentLoaded", function() {
   function createGaugeChart(id, title, range, steps) {

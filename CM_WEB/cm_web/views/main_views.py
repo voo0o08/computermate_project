@@ -67,6 +67,7 @@ s_temp_pv,s_temp_s ->  65 75
 
 k_name_list = ["스크류 속도", "챔버 온도", "칼날 속도", "노즐 온도", "스크류 온도"]
 
+# 각 column의 성분을 그려주는 그래프 
 def draw_graph():
     global WINDOW_SIZE
     global CM_DF
@@ -102,7 +103,7 @@ def draw_graph():
     new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
     return new_graphJSON
     
-# 도넛 차트 그리는 함수 
+# dash 도넛 차트 그리는 함수 
 def draw_donut(title, colors):
     global cnt
     global DATA_LENGTH
@@ -156,7 +157,6 @@ def draw_donut(title, colors):
     return new_donutJSON
     
 
-
 # @=>데코레이터 
 @bp.route("/")
 def index():
@@ -176,9 +176,42 @@ def dash():
     
     return render_template("dash.html", title="Home", graph1JSON=new_graphJSON)
 
+# total + 누적 그래프 생성 
 @bp.route("/total")
 def total():
-    return render_template("total.html")
+    global scale_pv
+    # Calculate the accumulated values with 3 subtracted from each element
+    accumulated_values = []
+    accumulated_sum = 0
+    for value in scale_pv:
+        accumulated_sum += (value - 3)
+        accumulated_values.append(accumulated_sum)
+
+    # Create a scatter plot
+    accumulate_fig = go.Figure()
+
+    # Add the area fill
+    accumulate_fig.add_trace(go.Scatter(
+        x=list(range(1, len(accumulated_values) + 1)),
+        y=accumulated_values,
+        mode='lines', # +markers
+        fill='tozeroy',  # Fill to the x-axis
+        fillcolor='rgba(0, 0, 255, 0.3)',  # Blue color with transparency
+        name='Accumulated Values'
+    ))
+
+    # Update layout for transparent background and tight layout
+    accumulate_fig.update_layout(
+        xaxis_title='기간',
+        yaxis_title='누적값',
+        paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+        plot_bgcolor='rgba(0,0,0,0)',   # Transparent background
+        width=1500, height=300,  # Reduced size
+        margin=dict(l=0, r=0, t=20, b=20) # Tight layout
+    )
+    accumulate_graphJSON = json.dumps(accumulate_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    
+    return render_template("total.html", accumulate_graphJSON=accumulate_graphJSON)
 
 
 @bp.route("/learning")
@@ -229,24 +262,6 @@ def update_gauges():
     # print('게이지 오류!',c_temp_pv[cnt+WINDOW_SIZE])
     return jsonify(data)
 
-# ============================================================================================
- 
-# 1번 공장 =======================================================================================
-@bp.route('/factory1')
-def factory1():
-    return render_template("factory1.html")
-
-@bp.route('/factory2')
-def factory2():
-    return render_template("factory2.html")
-
-@bp.route('/factory2_machine2_2')
-def factory2_machine2_2():
-    return render_template("factory2_machine2_2.html")
-
-@bp.route('/factory3')
-def factory3():
-    return render_template("factory3.html")
 
 ################################################### 값 확인 
 @bp.route('/click_button', methods=['POST'])
@@ -271,7 +286,8 @@ def click_button():
     # print(graph_idx) # 0, 1, 2, 3, 4
     return jsonify({"message": "버튼이 클릭되었습니다!"})
 
+
 ################################################### employee 전용 ###################################################
 @bp.route('/employee_dash')
 def employee_dash():
-    return render_template("temp.html")
+    return render_template("employee_dash.html")

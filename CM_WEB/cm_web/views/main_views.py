@@ -127,8 +127,8 @@ def draw_donut(title, colors):
             xanchor='center',  # 중앙 정렬
             font=dict(size=15)  # 제목 폰트 크기
         ),
-        height=230,
-        width=230,
+        height=245,
+        width=245,
         showlegend=False,
         paper_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
         plot_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정

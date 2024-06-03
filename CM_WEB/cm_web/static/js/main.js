@@ -244,8 +244,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }];
 
     var layout = {
-      width: 260,
-      height: 260,
+      width: 280,
+      height: 280,
       paper_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
       plot_bgcolor: 'rgba(0,0,0,0)', // 배경을 투명하게 설정
       margin: { t: 100, b: 100, l:0, r:0},

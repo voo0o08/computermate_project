@@ -18,7 +18,7 @@
     background-color: var(--gray-color);
     padding: 15px;
     margin: 15px;
-    padding-right: 40px;
+    /* padding-right: 40px; */
     /* margin-right: 30px; */
     /*margin-bottom: 25px;*/
     /* height: 52%; */
@@ -61,6 +61,8 @@
     /* width: 860px; */
     margin: 15px;
     margin-top:0px;
+    margin-bottom:0px;
+    height:99%;
     /*margin-left: 15px;*/
 
 }
@@ -73,7 +75,7 @@
     /*flex-wrap: ;*/
     /*position: relative;*/
     border-radius: 30px;
-    background-color: var(--gray-color);
+    /* background-color: var(--gray-color); */
     /*background: chartreuse;*/
     /* height: 101%; */
     width:875px;
@@ -120,22 +122,17 @@
 
 .gauge-row {
     display: flex;
-    /* width: 40%; */
+    width: 30%;
     /* height: 60%; */
-    margin-bottom: -500px;
-    background: cornflowerblue;
+    /* margin-bottom: -500px; */
+    /* background: cornflowerblue; */
 }
 
-.gauge {
-    /*flex: 1 1 50%; !* Each gauge takes up 50% width *!*/
-    /*margin: 10px;*/
-    background: coral;
-}
 
 .double-width {
     flex: 1 1 100%; /* Double width for combining two rows */
     /*height: 250px; !* Adjust height as necessary *!*/
-    background: chocolate;
+    /* background: chocolate; */
 }
 
 .left-gauge_dash {
@@ -144,13 +141,13 @@
     /* background-color: magenta; */
     width:30%;
     height: 30%;
-    margin-top:-120px;
+    /* margin-top:-200px; */
     margin-left:25px;
     /* margin-top:15px;/ */
 
     /*margin-left:30px;*/
     /*justify-content: center;*/
-    background-color: aqua;
+    /* background-color: aqua; */
     
 }
 
@@ -163,7 +160,7 @@
     height:20%;
     margin-top:-100px;
     margin-left: 150px;
-    background: green;
+    /* background: green; */
 }
 
 .gauge {
@@ -174,7 +171,7 @@
     border-radius: 10px;
     /* height: 200px; */
     /*margin-left:10px;*/
-    background: white;
+    /* background: white; */
     /*height: 50%;*/
     /*width: 30%;*/
 
@@ -184,51 +181,45 @@
 .gauge.large {
     position: relative;
     flex: 1 1 100%; /* Double width for combining two rows */
-
     display: flex;
     justify-content: center;
     align-items: center;
-    /* width: 100%; */
-    height: 40%;
-    /* margin-top: 100px; */
-    background: yellowgreen;
+    height: auto; /* height 값을 auto로 설정하여 내용에 맞게 조정 */
+    /* background: yellowgreen; */
 }
 
 .gauge.small {
     justify-content: center;
     align-items: center;
-    width: 30%;
-    height: 40%;
-    /* margin-top: 30px; */
-    background: white;
-    /*margin:5%;*/
-    /*margin:0px;*/
+    width: auto; /* width 값을 auto로 설정하여 내용에 맞게 조정 */
+    height: auto; /* height 값을 auto로 설정하여 내용에 맞게 조정 */
+    /* background: white; */
 }
 
-.right-gauge_top_dash {
-    margin-top: -100px;
-    margin-left: 40px;
-    margin-right:-30px;
+.right-gauge_left_dash {
+    /* margin-top: 40px; */
+    margin-left: 50px;
+    margin-right:-50px;
     width: 10%;
-    height: 50%;
-    justify-content: center;
-    align-items: center;
-    margin-bottom:-50px;
-    background-color: orangered;
+    height: 30%;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* margin-bottom:-50px; */
+    /* background-color: orangered; */
 
 }
 
-.right-gauge_bottom_dash {
-    margin-top: -100px;
-    /* margin-left: 40px; */
+.right-gauge_right_dash {
+    /* margin-top: 40px; */
+    margin-left: -50px;
     /* margin-right:-160px; */
     width: 10%;
-    height: 50%;
-    justify-content: center;
-    align-items: center;
-    margin-bottom:-500px;
+    height: 30%;
+    /* justify-content: center;
+    align-items: center; */
+    /* margin-bottom:-500px; */
     /* background-color: orangered; */
-    background-color: orchid;
+    /* background-color: orchid; */
 
 }
 
@@ -236,47 +227,48 @@
     /*margin-top: 10px;*/
     margin-right:40px;
     margin-left:20px;
+    margin-top:40px;
     width: 50%;
     height: 20%;
-    background-color: olivedrab;
+    /* background-color: olivedrab; */
 
 }
 
 #gauge-chart-2 {
-    /*margin-top: 10px;*/
+    margin-top:40px;
     margin-right:40px;
     margin-left:20px;
     width: 50%;
     height: 20%;
-    background-color:blueviolet;
+    /* background-color:blueviolet; */
 
 }
 
 #gauge-chart-3 {
-    margin-top: -10px;
+    /* margin-top: -10px;// */
     /*margin-right:40px;*/
     width: 30%;
     height: 30%;
-    background-color: beige;
+    /* background-color: beige; */
 }
 
 #gauge-chart-4 {
-    margin-top: 50px;
+    margin-top: 60px;
     /*margin-right:40px;*/
     width: 30%;
     height: 30%;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
 }
 
 #gauge-chart-5 {
-    margin-top: -10px;
+    /* margin-top: -10px; */
     /*margin-right:40px;*/
     width: 30%;
     height: 30%;
 }
 
 #gauge-chart-6 {
-    margin-top: 50px;
+    margin-top: 60px;
     /*margin-right:40px;*/
     width: 30%;
     height: 30%;
@@ -285,11 +277,49 @@
 
 
 .right-panel_dash{
-    height: 30%;
-    background-color: burlywood;
-
+    /* height: 30%; */
+    /* background-color: burlywood; */
+    width:55%;
+    margin-right:50px;
 }
 
-.left-panel_dash{
+/* main_container 스타일 확인 및 수정 */
+#main_container {
+    /* width: 60%; 부모 요소의 크기에 맞게 설정 */
+    overflow: hidden; /* 내부 요소가 부모 요소를 벗어나지 않도록 설정 */
+    position: relative; /* 상대 위치 설정 */
+    /* background-color: lightgray; 확인을 위해 배경색 설정 */
+}
 
+/* gauges-container 스타일 확인 및 수정 */
+#gauges-container {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    border-radius: 30px;
+    /* margin-bottom:35px; */
+    /* height:105%; */
+    background-color: var(--gray-color);
+    /* width: 50%; 부모 요소에 맞게 너비 설정 */
+    /* margin: 15px; 상하 마진만 설정 */
+}
+
+/* 내부 gauge 요소 스타일 확인 및 수정 */
+#gauges-container > .gauge-row {
+    display: flex;
+    /* width: 80%; */
+    height: 240px;
+    margin: 10px 0; /* 적절한 상하 마진 설정 */
+    /* background: cornflowerblue; 확인을 위해 배경색 설정 */
+}
+
+.gauge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    /* background: white; */
+    width: 100%; /* 부모 요소에 맞게 너비 설정 */
+    height: auto; /* 내용에 맞게 높이 설정 */
+    margin: 10px; /* 적절한 마진 설정 */
 }

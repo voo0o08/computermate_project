@@ -19,6 +19,36 @@ bp = Blueprint("main", __name__, url_prefix="/")
 CM_DF = pd.read_csv("./cm_web/static/data/result_ver1.csv")
 DATA_LENGTH = len(CM_DF)
 
+# total page를 위한 데이터 시작
+TOTAL_DF = pd.read_csv("./cm_web/static/data/for_total.csv")
+pre_data = TOTAL_DF["previouse_data"]
+real_data = TOTAL_DF["data"]
+
+WANT_DAY = 40 # 최근 n일 간(데이터는 주작)
+day_length = int(np.floor(len(TOTAL_DF)/WANT_DAY))
+
+max_len = day_length
+
+A_counts = []
+B_counts = []
+C_counts = []
+for i in range(WANT_DAY):
+    # 조각조각 탐색 
+    temp_list = pre_data[:max_len]
+    # real_data[:max_len+day_length]
+    
+    A_cnt = len([num for num in temp_list if 2.9 <= num <= 3.1])            # A
+    B_cnt = len([num for num in temp_list if 2.8 <= num <= 3.2]) - A_cnt    # B
+    C_cnt = len(temp_list) - (A_cnt + B_cnt)                                # C
+    
+    A_counts.append(A_cnt)
+    B_counts.append(B_cnt)
+    C_counts.append(C_cnt)
+    
+    max_len += day_length
+# total page를 위한 데이터 끝
+
+
 
 graph_idx = 2 # 기본값 => rpm
 name_list = ("E_scr", "c_temp", "k_rpm", "n_temp", "s_temp")
@@ -179,25 +209,41 @@ def dash():
 # total + 누적 그래프 생성 
 @bp.route("/total")
 def total():
-    global scale_pv
-    # Calculate the accumulated values with 3 subtracted from each element
-    accumulated_values = []
-    accumulated_sum = 0
-    for value in scale_pv:
-        accumulated_sum += (value - 3)
-        accumulated_values.append(accumulated_sum)
+    # 10월 무게 데이터에 대한 series
+    global pre_data 
+    global real_data 
+    
+    pre_acc = [] # 파란색
+    real_acc = [] # 빨간색 
+    pre_sum = 0
+    pre_real = 0
+    for idx in range(len(pre_data)):
+        pre_sum += ((pre_data[idx] - 3)*1)
+        pre_real += ((real_data[idx] - 3)*1)
+        pre_acc.append(pre_sum)
+        real_acc.append(pre_real)
 
     # Create a scatter plot
     accumulate_fig = go.Figure()
 
-    # Add the area fill
+    # pre_acc
     accumulate_fig.add_trace(go.Scatter(
-        x=list(range(1, len(accumulated_values) + 1)),
-        y=accumulated_values,
+        x=list(range(1, len(pre_acc) + 1)),
+        y=pre_acc,
         mode='lines', # +markers
         fill='tozeroy',  # Fill to the x-axis
         fillcolor='rgba(0, 0, 255, 0.3)',  # Blue color with transparency
-        name='Accumulated Values'
+        name='예측값'
+    ))
+    
+    # real_acc
+    accumulate_fig.add_trace(go.Scatter(
+        x=list(range(1, len(real_acc) + 1)),
+        y=real_acc,
+        mode='lines', # +markers
+        fill='tozeroy',  # Fill to the x-axis
+        fillcolor='rgba(255, 0, 0, 0.3)',  
+        name='실제값'
     ))
 
     # Update layout for transparent background and tight layout
@@ -211,7 +257,52 @@ def total():
     )
     accumulate_graphJSON = json.dumps(accumulate_fig, cls=plotly.utils.PlotlyJSONEncoder)
     
-    return render_template("total.html", accumulate_graphJSON=accumulate_graphJSON)
+    ################################################### 품질 그래프 
+    global A_counts, B_counts, C_counts
+    x_label = list(range(day_length))
+    # Create the stacked bar plot
+    quality_fig = go.Figure()
+
+    quality_fig.add_trace(go.Bar(
+        x=x_label,
+        y=A_counts,
+        name='A 2.9~3.1',
+        marker_color='#21A675',
+        marker_line_width=0  # Remove border
+    ))
+
+    quality_fig.add_trace(go.Bar(
+        x=x_label,
+        y=B_counts,
+        name='B 2.8~3.2',
+        marker_color='#F28705',
+        marker_line_width=0  # Remove border
+    ))
+
+    quality_fig.add_trace(go.Bar(
+        x=x_label,
+        y=C_counts,
+        name='C Other',
+        marker_color='#F23827',
+        marker_line_width=0  # Remove border
+    ))
+
+    # Update layout for stacked bars
+    quality_fig.update_layout(
+        barmode='stack', 
+        # title='야야야', 
+        paper_bgcolor='rgba(0,0,0,0)', 
+        plot_bgcolor='rgba(0,0,0,0)', 
+        font=dict(color='black'),
+        width=1000, height=300,  # 그래프 사이즈
+        xaxis=dict(title='날짜', showgrid=False, zeroline=False),
+        yaxis=dict(title='생산량', showgrid=False, zeroline=False),
+        legend=dict(bgcolor='rgba(0,0,0,0)')
+    )
+    
+    quality_graphJSON = json.dumps(quality_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    
+    return render_template("total.html", accumulate_graphJSON=accumulate_graphJSON, quality_graphJSON=quality_graphJSON)
 
 
 @bp.route("/learning")

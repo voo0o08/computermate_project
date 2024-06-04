@@ -52,12 +52,12 @@
     position: relative;
     overflow: hidden;
 
-
 }
 
 #cctv{
     object-fit: cover;
-    height: 110%;
+    height: 100%;
+    width: 100%;
 }
 
 #overlay {

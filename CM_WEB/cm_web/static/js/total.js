@@ -3,6 +3,10 @@ document.addEventListener("DOMContentLoaded", function() {
     Plotly.newPlot('accumulate_graph', graphJSON.data, graphJSON.layout);
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var graphJSON = JSON.parse(document.getElementById('quality-data').textContent);
+    Plotly.newPlot('quality_graph', graphJSON.data, graphJSON.layout);
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     var video = document.getElementById('myVideo');

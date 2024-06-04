@@ -9,7 +9,9 @@
 
     <div id="total_bottom">
         <div id="total_left">
-            고무 누적 그래프
+            <!-- quality_graphJSON -->
+            <div id="quality_graph"></div>
+            <script type="application/json" id="quality-data">{{ quality_graphJSON | safe }}</script>
         </div>
 
         <div id="total_right">

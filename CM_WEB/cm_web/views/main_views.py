@@ -368,11 +368,11 @@ def update_donut():
         xaxis=dict(title='Count', showgrid=False, range=[0, 1000]),  # x축 제목 설정 및 그리드 라인 제거
         yaxis=dict(title='', showgrid=False),  # y축 제목 제거 및 그리드 라인 제거
         barmode='stack',  # 막대 그래프 모드 설정 (스택 모드)
-        margin=dict(l=0, r=0, t=0, b=0),  # 그래프의 여백을 최소화
-        paper_bgcolor='rgba(0,0,0,0)',  # 투명 배경 설정
+        margin=dict(l=0, r=0, t=50, b=100),  # 그래프의 여백을 최소화
+        paper_bgcolor='rgba(255,0,0,0)',  # 투명 배경 설정
         plot_bgcolor='rgba(0,0,0,0)',  # 투명 플롯 영역 설정
-        height = 250, 
         font=dict(color='black'),  # 글꼴 색상 설정
+        width=600
     )
     # diverging_fig.update_yaxes(range=[0, 1000])
     diverging_chartJSON = json.dumps(diverging_fig, cls=plotly.utils.PlotlyJSONEncoder)

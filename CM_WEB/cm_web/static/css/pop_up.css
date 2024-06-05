@@ -1,11 +1,3 @@
-.navbar { /* 기본 스타일 정의 */ }
-.white_back { /* 기본 스타일 정의 */ }
-.nav_logo img { /* 기본 스타일 정의 */ }
-.nav_profile img { /* 기본 스타일 정의 */ }
-.nav_menu { /* 기본 스타일 정의 */ }
-.nav_menu li { /* 기본 스타일 정의 */ }
-.nav_menu li a { /* 기본 스타일 정의 */ }
-
 /* 팝업창 스타일 추가 */
 .popup {
     display: none;
@@ -15,10 +7,12 @@
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 40px; /* 팝업 내용을 더 넓게 조정 */
+    height: 300px;
     width: 400px; /* 팝업 전체 너비 조정 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     text-align: center; /* 내용을 가운데 정렬 */
+    border-radius: 15px;
 }
 
 .popup form {

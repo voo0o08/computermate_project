@@ -15,11 +15,7 @@ body {
   background-color: var(--gray-color);
 }
   
-/* * {
-  padding: 0px;
-  margin: 0;
-  font-family: work_sansregular;
-} */
+
 .main_container {
   background-color: var(--white-color);
   position: absolute;

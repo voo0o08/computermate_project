@@ -97,11 +97,10 @@
     margin-right: 0px;
     /* height: 110%; */
     justify-content: space-around;
+
 }
 
-/* .donut-chart {
-    background-color: aquamarine;
-} */
+
 
 /* 컨테이너 스타일 추가 */
 .chart-container {
@@ -112,12 +111,10 @@
 
 
 .chart {
-    /*width:110%;*/
-    /* background:    black; */
-    display: flex;
-    /* margin-top: 10px; */
-    margin-left: -75px;
-
+    /* display: flex;
+    margin-left: -75px; */
+    width: 100%;
+    height: 100%;
 }
 
 .gauge-row {

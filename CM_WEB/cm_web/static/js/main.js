@@ -60,10 +60,10 @@ function updateDonut() {
     console.log(data.msg);
 
     try {
-      var new_donut2 = JSON.parse(data.new_donut2JSON);  // JSON 문자열을 객체로 변환
-      var new_donut3 = JSON.parse(data.new_donut3JSON);  // JSON 문자열을 객체로 변환
-      Plotly.react("donut-chart-2", new_donut2.data, new_donut2.layout);  // 차트 업데이트
-      Plotly.react("donut-chart-3", new_donut3.data, new_donut3.layout);  // 차트 업데이트
+      // var new_donut2 = JSON.parse(data.new_donut2JSON);  // JSON 문자열을 객체로 변환
+      var diverging_chart = JSON.parse(data.diverging_chartJSON);  // JSON 문자열을 객체로 변환
+      // Plotly.react("donut-chart-2", new_donut2.data, new_donut2.layout);  // 차트 업데이트
+      Plotly.react("diverging-chart", diverging_chart.data, diverging_chart.layout);  // 차트 업데이트
     } catch (e) {
       console.error("Error parsing JSON data:", e);
     }

@@ -134,57 +134,57 @@ def draw_graph():
     return new_graphJSON
     
 # dash 도넛 차트 그리는 함수 
-def draw_donut(title, colors):
-    global cnt
-    global DATA_LENGTH
-    global wrong_cnt
+# def draw_donut(title, colors):
+#     global cnt
+#     global DATA_LENGTH
+#     global wrong_cnt
     
-    if title == "불량률":
-        if scale_pv[cnt] <= 2.9 or scale_pv[cnt] >= 3.09:
-            wrong_cnt += 1
-    # col_pv = sr_list[graph_idx][0]
-    # col_sv = sr_list[graph_idx][1]
+#     if title == "불량률":
+#         if scale_pv[cnt] <= 2.9 or scale_pv[cnt] >= 3.09:
+#             wrong_cnt += 1
+#     # col_pv = sr_list[graph_idx][0]
+#     # col_sv = sr_list[graph_idx][1]
     
-    # 불량품 그래프 
-    new_fig = go.Figure(data=[go.Pie(
-    values=[wrong_cnt, DATA_LENGTH - wrong_cnt] if title=="불량률" else [cnt, DATA_LENGTH - cnt],
-    labels=['Used', 'Remaining'],
-    marker=dict(colors=colors),
-    textinfo='none',
-    hole=.4,
-    rotation=0,
-    direction='clockwise',
-    type='pie'
-    )])
+#     # 불량품 그래프 
+#     new_fig = go.Figure(data=[go.Pie(
+#     values=[wrong_cnt, DATA_LENGTH - wrong_cnt] if title=="불량률" else [cnt, DATA_LENGTH - cnt],
+#     labels=['Used', 'Remaining'],
+#     marker=dict(colors=colors),
+#     textinfo='none',
+#     hole=.4,
+#     rotation=0,
+#     direction='clockwise',
+#     type='pie'
+#     )])
     
 
-    # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
-    new_fig.update_layout(
-        title=dict(
-            text=title,
-            x=0.5,  # 중앙 정렬
-            xanchor='center',  # 중앙 정렬
-            font=dict(size=15)  # 제목 폰트 크기
-        ),
-        height=245,
-        width=245,
-        showlegend=False,
-        paper_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
-        plot_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
-        margin=dict(t=40, b=0, l=0, r=0),
-        annotations=[
-            dict(
-                font=dict(size=15),
-                showarrow=False,
-                text=str(wrong_cnt) if title=="불량률" else str(cnt),
-                x=0.5,
-                y=0.5
-            )
-        ]
-    )
+#     # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
+#     new_fig.update_layout(
+#         title=dict(
+#             text=title,
+#             x=0.5,  # 중앙 정렬
+#             xanchor='center',  # 중앙 정렬
+#             font=dict(size=15)  # 제목 폰트 크기
+#         ),
+#         height=245,
+#         width=245,
+#         showlegend=False,
+#         paper_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
+#         plot_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
+#         margin=dict(t=40, b=0, l=0, r=0),
+#         annotations=[
+#             dict(
+#                 font=dict(size=15),
+#                 showarrow=False,
+#                 text=str(wrong_cnt) if title=="불량률" else str(cnt),
+#                 x=0.5,
+#                 y=0.5
+#             )
+#         ]
+#     )
     
-    new_donutJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return new_donutJSON
+#     new_donutJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
+#     return new_donutJSON
     
 
 # @=>데코레이터 
@@ -326,14 +326,57 @@ def update_chart():
     # cnt += 1 # WINDOW 이동
     return jsonify({"new_graphJSON": new_graphJSON, "msg" : "화이팅!"})
 
-
-# 규량님 거 JS to Python : 도넛 차트==================================================================================
+quality_list = [0, 0, 0] # c, b, a 순서
+# 규량님 거 JS to Python : 품질 차트==================================================================================
 @bp.route('/update_donut')
 def update_donut():
-    print("도넛 업데이트 중...")
-    new_donut2JSON = draw_donut("생산량", ['#1FA680', '#ffffff'])
-    new_donut3JSON = draw_donut("불량률", ['#FFA500', '#ffffff'])
-    return jsonify({"new_donut2JSON": new_donut2JSON, "new_donut3JSON":new_donut3JSON," msg" : "도넛 차트 data.msg"})
+    global cnt
+    global quality_list
+    global scale_pv
+    # print("도넛 업데이트 중...")
+    '''
+    발산 막대 차트 
+    #21A675 녹색
+    #F28705 주황색
+    #F23827 빨간색
+    '''
+    categories = ['Grade C', 'Grade B', 'Grade A']  # y축에 표시될 카테고리
+  
+    if 2.9<=scale_pv[cnt] and scale_pv[cnt]<=3.1:
+        quality_list[2] += 1
+    elif 2.8<=scale_pv[cnt] and scale_pv[cnt]<=3.2:
+        quality_list[1] += 1
+    else:
+        quality_list[0] += 1
+        
+    # diverging_chartJSON
+    diverging_fig = go.Figure()  # diverging_Figure 객체를 생성
+
+    # 막대 그래프 추가
+    diverging_fig.add_trace(go.Bar(
+        x=quality_list,
+        y=categories,
+        orientation='h',  # 수평 막대 그래프로 설정
+        marker=dict(color=['#F23827', '#F28705','#21A675' ]),  # 막대 색상 설정 (A, B, C 순서)
+        text=quality_list,  # 각 막대에 표시될 텍스트
+        textposition='auto'  # 텍스트 위치 자동 설정
+    ))
+
+    # 레이아웃 업데이트
+    diverging_fig.update_layout(
+        # title='Quality Grades',  # 그래프 제목 설정
+        xaxis=dict(title='Count', showgrid=False, range=[0, 1000]),  # x축 제목 설정 및 그리드 라인 제거
+        yaxis=dict(title='', showgrid=False),  # y축 제목 제거 및 그리드 라인 제거
+        barmode='stack',  # 막대 그래프 모드 설정 (스택 모드)
+        margin=dict(l=0, r=0, t=0, b=0),  # 그래프의 여백을 최소화
+        paper_bgcolor='rgba(0,0,0,0)',  # 투명 배경 설정
+        plot_bgcolor='rgba(0,0,0,0)',  # 투명 플롯 영역 설정
+        height = 250, 
+        font=dict(color='black'),  # 글꼴 색상 설정
+    )
+    # diverging_fig.update_yaxes(range=[0, 1000])
+    diverging_chartJSON = json.dumps(diverging_fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return jsonify({"diverging_chartJSON": diverging_chartJSON," msg" : "발산 막대 차트 data.msg"})
 
 
 # 규량 : 계기판 표현=================================================================================

@@ -23,6 +23,14 @@
     gap: 15px;
 }
 
+#col_select_box {
+    margin:15px;
+    margin-left:70px;
+    /* margin-right:50px; */
+
+}
+
+
 #dash_top {
     position: relative;
     border-radius: 15px;
@@ -74,18 +82,30 @@
     flex: 2;
     background-color: var(--gray-color);
     border-radius: 15px;
+    /* margin-top:15px; */
 
     display: flex;
+    /* height: 110%; */
     justify-content: center; /* 가로 축 중앙 정렬 */
     align-items: center;    /* 세로 축 중앙 정렬 */
     flex-direction: column; /* 요소들을 세로로 나열 */   
 }
+
+#diverging-chart{
+    margin-top:-30px;
+    height:450px;
+    /* width:auto; */
+    margin-bottom:-30px;
+
+}
+
 
 /* 오른쪽 박스 */
 #dash_right{
     flex: 3;
     background-color: var(--gray-color);
     border-radius: 15px;
+    /* height: 100%; */
 }
 
 .chart {
@@ -146,6 +166,7 @@
 .gauge-row {
     display: flex;
     width: 30%;
+    margin-left:-15px;
     /* height: 60%; */
     /* margin-bottom: -500px; */
     /* background: cornflowerblue; */
@@ -165,7 +186,8 @@
     width:30%;
     height: 30%;
     /* margin-top:-200px; */
-    margin-left:25px;
+    margin-left:50px;
+    margin-top:150px;
     /* margin-top:15px;/ */
 
     /*margin-left:30px;*/
@@ -181,7 +203,8 @@
     /* height:200px; */
     width: 20%;
     height:20%;
-    margin-top:-100px;
+    /* margin-top:-100px; */
+    margin-top:50px;
     margin-left: 150px;
     /* background: green; */
 }
@@ -221,7 +244,7 @@
 
 .right-gauge_left_dash {
     /* margin-top: 40px; */
-    margin-left: 50px;
+    margin-left: 90px;
     margin-right:-50px;
     width: 10%;
     height: 30%;
@@ -260,7 +283,7 @@
 #gauge-chart-2 {
     margin-top:40px;
     margin-right:40px;
-    margin-left:20px;
+    margin-left:55px;
     width: 50%;
     height: 20%;
     /* background-color:blueviolet; */
@@ -268,30 +291,36 @@
 }
 
 #gauge-chart-3 {
-    /* margin-top: -10px;// */
+    margin-top: -30px;
     /*margin-right:40px;*/
+    margin-bottom:20px;
     width: 30%;
     height: 30%;
     /* background-color: beige; */
 }
 
 #gauge-chart-4 {
-    margin-top: 60px;
+    margin-top: 120px;
     /*margin-right:40px;*/
+    /* margin-left: 20px; */
     width: 30%;
     height: 30%;
     /* background-color: aquamarine; */
 }
 
 #gauge-chart-5 {
-    /* margin-top: -10px; */
+    margin-top: -30px;
     /*margin-right:40px;*/
+    margin-bottom:20px;
+    margin-left:40px;   
     width: 30%;
     height: 30%;
+    /* margin-bottom:50px; */
 }
 
 #gauge-chart-6 {
-    margin-top: 60px;
+    margin-top: 120px;
+    margin-left: 40px;  
     /*margin-right:40px;*/
     width: 30%;
     height: 30%;
@@ -311,6 +340,7 @@
     /* width: 60%; 부모 요소의 크기에 맞게 설정 */
     overflow: hidden; /* 내부 요소가 부모 요소를 벗어나지 않도록 설정 */
     position: relative; /* 상대 위치 설정 */
+    /* height: */
     /* background-color: lightgray; 확인을 위해 배경색 설정 */
 }
 
@@ -332,7 +362,8 @@
     display: flex;
     /* width: 80%; */
     height: 240px;
-    margin: 10px 0; /* 적절한 상하 마진 설정 */
+    /* padding:15px; */
+    /* margin: 10px 0; 적절한 상하 마진 설정 */
     /* background: cornflowerblue; 확인을 위해 배경색 설정 */
 }
 

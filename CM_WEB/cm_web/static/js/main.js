@@ -126,6 +126,9 @@ document.addEventListener("DOMContentLoaded", function() {
 // 게이지 JS (새로 추가됨)
 document.addEventListener("DOMContentLoaded", function() {
   function createGaugeChart(id, title, range, steps) {
+    var tickvals = steps.map(step=> (step.range[0]));
+    tickvals.push(range[1]);
+    var ticktext = tickvals.map(val => val.toFixed(1));
     var data = [{
       type: "indicator",
       mode: "gauge+number+delta",
@@ -133,11 +136,11 @@ document.addEventListener("DOMContentLoaded", function() {
       title: { text: title, font: { size: 15 }},
       delta: { reference: (range[0]+range[1])*0.5 },
       gauge: {
-        axis: { range: range, startangle: -135, endangle: 135 }, // 각도를 270도로 설정
+        axis: { range: range, startangle: -135, endangle: 135, tickvals: tickvals, ticktext:ticktext, tickfont:{size:10}}, // 각도를 270도로 설정
         bar: { color: "white" },
         steps: steps,
         bordercolor: 'rgba(0,0,0,0)', // 테두리선을 투명하게 설정
-
+      
 
 
       }

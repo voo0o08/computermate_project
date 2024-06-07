@@ -79,6 +79,7 @@
 
 /* 왼쪽 박스 */
 #dash_left{
+    position: relative;
     flex: 2;
     background-color: var(--gray-color);
     border-radius: 15px;
@@ -90,14 +91,19 @@
     align-items: center;    /* 세로 축 중앙 정렬 */
     flex-direction: column; /* 요소들을 세로로 나열 */   
 }
-
-#diverging-chart{
-    margin-top:-30px;
-    height:450px;
-    /* width:auto; */
-    margin-bottom:-30px;
-
+#diverging_temp {
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
 }
+#diverging-chart {
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+
 
 
 /* 오른쪽 박스 */

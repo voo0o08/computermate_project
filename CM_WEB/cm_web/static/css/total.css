@@ -41,6 +41,12 @@
     background-color: var(--gray-color);
     flex: 6; /* Make it take up half the remaining space */
     border-radius: 15px;
+    
+    display: flex;
+    /* height: 110%; */
+    justify-content: center; /* 가로 축 중앙 정렬 */
+    align-items: center;    /* 세로 축 중앙 정렬 */
+    flex-direction: column; /* 요소들을 세로로 나열 */   
 }
 
 #total_right{

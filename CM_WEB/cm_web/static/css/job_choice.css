@@ -39,13 +39,17 @@ body {
 .icon_box {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     width: 48%;
     background-color: var(--gray-color);
     border-radius: 15px;
     text-align: center;
-    padding: 20px;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    justify-content: space-around; /* 각 요소를 같은 간격으로 떨어지게 배치 */
+   
+    /* height: 100%; */
 }
 
 .icon_box img {
@@ -64,7 +68,6 @@ body {
 .job_text {
     margin: 0;
     color: var(--text-color);
-    font-size: 1.5em;
+    font-size: 3em;
     font-weight: bold;
-    margin-top: 30px;
 }

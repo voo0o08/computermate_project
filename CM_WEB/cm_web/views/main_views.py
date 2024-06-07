@@ -8,6 +8,8 @@ import plotly
 import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
 
 WINDOW_SIZE = 50
@@ -24,7 +26,15 @@ TOTAL_DF = pd.read_csv("./cm_web/static/data/for_total.csv")
 pre_data = TOTAL_DF["previouse_data"]
 real_data = TOTAL_DF["data"]
 
-WANT_DAY = 40 # 최근 n일 간(데이터는 주작)
+
+
+
+# 현재 날짜와 시각을 가져옴
+now = datetime.now()
+WANT_DAY = 7 # 최근 n일 간(데이터는 주작)
+END_DAY = now.strftime("%m/%d")
+START_DAY = (now + timedelta(days=-WANT_DAY)).strftime("%m/%d")
+# print(start_day,"\n" ,end_day)
 day_length = int(np.floor(len(TOTAL_DF)/WANT_DAY))
 
 max_len = day_length
@@ -107,11 +117,11 @@ def draw_graph():
     col_pv = sr_list[graph_idx][0]
     col_sv = sr_list[graph_idx][1]
     new_fig = px.line(x=range(WINDOW_SIZE), y=col_pv[cnt:cnt+WINDOW_SIZE], markers=True)
-    new_fig.update_traces(name="pv", showlegend=True, marker=dict(opacity=0.5)) # 기본 상태 그래프는 showlegend 안하면 밑에 sv 범례만 뜸 
+    new_fig.update_traces(name="측정값", showlegend=True, marker=dict(opacity=0.5)) # 기본 상태 그래프는 showlegend 안하면 밑에 sv 범례만 뜸 
     # 알파값 높을수록 진함
 
     # setting value 그래프 추가 
-    new_fig.add_trace(go.Scatter(x=list(range(WINDOW_SIZE)), y=col_sv[cnt:cnt+WINDOW_SIZE], name="sv"))
+    new_fig.add_trace(go.Scatter(x=list(range(WINDOW_SIZE)), y=col_sv[cnt:cnt+WINDOW_SIZE], name="세팅값"))
 
     # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
     new_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',
@@ -133,59 +143,7 @@ def draw_graph():
     new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
     return new_graphJSON
     
-# dash 도넛 차트 그리는 함수 
-# def draw_donut(title, colors):
-#     global cnt
-#     global DATA_LENGTH
-#     global wrong_cnt
-    
-#     if title == "불량률":
-#         if scale_pv[cnt] <= 2.9 or scale_pv[cnt] >= 3.09:
-#             wrong_cnt += 1
-#     # col_pv = sr_list[graph_idx][0]
-#     # col_sv = sr_list[graph_idx][1]
-    
-#     # 불량품 그래프 
-#     new_fig = go.Figure(data=[go.Pie(
-#     values=[wrong_cnt, DATA_LENGTH - wrong_cnt] if title=="불량률" else [cnt, DATA_LENGTH - cnt],
-#     labels=['Used', 'Remaining'],
-#     marker=dict(colors=colors),
-#     textinfo='none',
-#     hole=.4,
-#     rotation=0,
-#     direction='clockwise',
-#     type='pie'
-#     )])
-    
 
-#     # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
-#     new_fig.update_layout(
-#         title=dict(
-#             text=title,
-#             x=0.5,  # 중앙 정렬
-#             xanchor='center',  # 중앙 정렬
-#             font=dict(size=15)  # 제목 폰트 크기
-#         ),
-#         height=245,
-#         width=245,
-#         showlegend=False,
-#         paper_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
-#         plot_bgcolor='rgba(0,0,0,0)',  # 배경을 투명하게 설정
-#         margin=dict(t=40, b=0, l=0, r=0),
-#         annotations=[
-#             dict(
-#                 font=dict(size=15),
-#                 showarrow=False,
-#                 text=str(wrong_cnt) if title=="불량률" else str(cnt),
-#                 x=0.5,
-#                 y=0.5
-#             )
-#         ]
-#     )
-    
-#     new_donutJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
-#     return new_donutJSON
-    
 
 # @=>데코레이터 
 @bp.route("/")
@@ -212,6 +170,7 @@ def total():
     # 10월 무게 데이터에 대한 series
     global pre_data 
     global real_data 
+    global now
     
     pre_acc = [] # 파란색
     real_acc = [] # 빨간색 
@@ -226,47 +185,61 @@ def total():
     # Create a scatter plot
     accumulate_fig = go.Figure()
 
-    # pre_acc
+    # pre_acc (AI 도입 후)
     accumulate_fig.add_trace(go.Scatter(
         x=list(range(1, len(pre_acc) + 1)),
         y=pre_acc,
         mode='lines', # +markers
         fill='tozeroy',  # Fill to the x-axis
-        fillcolor='rgba(0, 0, 255, 0.3)',  # Blue color with transparency
-        name='예측값'
+        fillcolor='rgba(200, 207, 160, 0.7)',  # Blue color with transparency rgb(200, 207, 160)
+        line=dict(color='rgba(200, 207, 160, 1)'),
+        name='AI도입 후'
     ))
     
-    # real_acc
+    # real_acc (AI 도입 전)
     accumulate_fig.add_trace(go.Scatter(
         x=list(range(1, len(real_acc) + 1)),
         y=real_acc,
         mode='lines', # +markers
-        fill='tozeroy',  # Fill to the x-axis
-        fillcolor='rgba(255, 0, 0, 0.3)',  
-        name='실제값'
+        fill='tonexty',  # Fill to the previous trace
+        fillcolor='rgba(239, 156, 102, 0.5)',  # rgb(252, 220, 148)
+        line=dict(color='rgba(239, 156, 102, 1)'),
+        name='AI도입 전'
     ))
-
+    last_month = (now - relativedelta(months=1)).month
     # Update layout for transparent background and tight layout
     accumulate_fig.update_layout(
-        xaxis_title='기간',
-        yaxis_title='누적값',
+        title=dict(
+            text=f'지난 달({last_month}월)은 AI 도입 전보다 ~원 절약',  # 그래프 제목 설정
+            font=dict(size=24, family='Arial', color='black')  # 제목 글꼴 크기 및 색상 설정
+        ),
+        # xaxis_title=str(last_month)+"월",
+        yaxis_title='누적값[g]',
         paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
         plot_bgcolor='rgba(0,0,0,0)',   # Transparent background
-        width=1500, height=300,  # Reduced size
-        margin=dict(l=0, r=0, t=20, b=20) # Tight layout
+        width=1500, height=350,  # Reduced size
+        margin=dict(l=0, r=0, t=50, b=0), # Tight layout
+        showlegend=True,
+        xaxis=dict(
+        # title=str(last_month) + "월",
+        tickvals=[1, len(pre_data)/2, len(pre_data)],  # x축 눈금 값 설정 (1일, 15일, 30일)
+        ticktext=["1일", "15일", "31일"],  # 눈금 레이블 설정
+        #range=[1, 30],  # x축 범위 설정 (1일부터 30일까지)
+    ),
     )
+    
     accumulate_graphJSON = json.dumps(accumulate_fig, cls=plotly.utils.PlotlyJSONEncoder)
     
     ################################################### 품질 그래프 
     global A_counts, B_counts, C_counts
-    x_label = list(range(day_length))
+    x_label = list(range(1, day_length+1))
     # Create the stacked bar plot
     quality_fig = go.Figure()
 
     quality_fig.add_trace(go.Bar(
         x=x_label,
         y=A_counts,
-        name='A 2.9~3.1',
+        name='A등급:2.9~3.1g',
         marker_color='#21A675',
         marker_line_width=0  # Remove border
     ))
@@ -274,7 +247,7 @@ def total():
     quality_fig.add_trace(go.Bar(
         x=x_label,
         y=B_counts,
-        name='B 2.8~3.2',
+        name='B등급:2.8~3.2g',
         marker_color='#F28705',
         marker_line_width=0  # Remove border
     ))
@@ -282,22 +255,39 @@ def total():
     quality_fig.add_trace(go.Bar(
         x=x_label,
         y=C_counts,
-        name='C Other',
+        name='C등급:~2.8 or 3.2~',
         marker_color='#F23827',
         marker_line_width=0  # Remove border
     ))
-
+    
+    x_day_list = []
+    for i in range(WANT_DAY):
+        day = now + timedelta(days=-WANT_DAY+i)
+        x_day_list.append(day.strftime("%m-%d"))
+    print(x_day_list) # ['05-31', '06-01', '06-02', '06-03', '06-04', '06-05', '06-06']
+        
+    # print([range(WANT_DAY)])
     # Update layout for stacked bars
     quality_fig.update_layout(
         barmode='stack', 
-        # title='야야야', 
+        title=dict(
+            text=f'최근 일주일 생산품 현황({START_DAY}~{END_DAY})',  # 그래프 제목 설정
+            font=dict(size=24, family='Arial', color='black')  # 제목 글꼴 크기 및 색상 설정
+        ),
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='rgba(0,0,0,0)', 
         font=dict(color='black'),
-        width=1000, height=300,  # 그래프 사이즈
-        xaxis=dict(title='날짜', showgrid=False, zeroline=False),
-        yaxis=dict(title='생산량', showgrid=False, zeroline=False),
-        legend=dict(bgcolor='rgba(0,0,0,0)')
+        width=850, 
+        height=350,  # 그래프 사이즈
+        # xaxis=dict(title='날짜', showgrid=False, zeroline=False),
+        yaxis=dict(title='생산량[개]', showgrid=False, zeroline=False),
+        legend=dict(bgcolor='rgba(0,0,0,0)'),
+        margin=dict(l=0, r=0, t=50, b=0),
+        xaxis=dict(
+        title="날짜",
+        tickvals=list(range(1,WANT_DAY+1)),  # x축 눈금 값 설정 (1일, 15일, 30일)
+        ticktext=x_day_list  # 눈금 레이블 설정
+        )
     )
     
     quality_graphJSON = json.dumps(quality_fig, cls=plotly.utils.PlotlyJSONEncoder)
@@ -326,57 +316,75 @@ def update_chart():
     # cnt += 1 # WINDOW 이동
     return jsonify({"new_graphJSON": new_graphJSON, "msg" : "화이팅!"})
 
-quality_list = [0, 0, 0] # c, b, a 순서
+quality_list = [10, 30, 100] # c, b, a 순서
 # 규량님 거 JS to Python : 품질 차트==================================================================================
 @bp.route('/update_donut')
 def update_donut():
     global cnt
     global quality_list
     global scale_pv
-    # print("도넛 업데이트 중...")
     '''
     발산 막대 차트 
     #21A675 녹색
     #F28705 주황색
     #F23827 빨간색
     '''
-    categories = ['Grade C', 'Grade B', 'Grade A']  # y축에 표시될 카테고리
   
-    if 2.9<=scale_pv[cnt] and scale_pv[cnt]<=3.1:
+    if 2.9 <= scale_pv[cnt] <= 3.1:
         quality_list[2] += 1
-    elif 2.8<=scale_pv[cnt] and scale_pv[cnt]<=3.2:
+    elif 2.8 <= scale_pv[cnt] <= 3.2:
         quality_list[1] += 1
     else:
         quality_list[0] += 1
         
+    categories = ['C등급', 'B등급', 'A등급']  # y축에 표시될 카테고리
+    counts = [quality_list[0], quality_list[1], quality_list[2]]  # 각 카테고리에 해당하는 x축 값
+    colors = ['#F23827', '#F28705', '#21A675']  # 막대 색상 설정 (C, B, A 순서)
+    names = ['~2.8g|3.2g ~', '2.8 ~ 3.2g', '2.9 ~ 3.1g']  # 범례에 표시될 이름
+
     # diverging_chartJSON
     diverging_fig = go.Figure()  # diverging_Figure 객체를 생성
 
     # 막대 그래프 추가
-    diverging_fig.add_trace(go.Bar(
-        x=quality_list,
-        y=categories,
-        orientation='h',  # 수평 막대 그래프로 설정
-        marker=dict(color=['#F23827', '#F28705','#21A675' ]),  # 막대 색상 설정 (A, B, C 순서)
-        text=quality_list,  # 각 막대에 표시될 텍스트
-        textposition='auto'  # 텍스트 위치 자동 설정
-    ))
+    for count, category, color, name in zip(counts, categories, colors, names):
+        diverging_fig.add_trace(go.Bar(
+            x=[count],
+            y=[category],
+            orientation='h',  # 수평 막대 그래프로 설정
+            marker=dict(color=color),  # 막대 색상 설정
+            text=[count],  # 각 막대에 표시될 텍스트
+            textposition='auto',  # 텍스트 위치 자동 설정
+            name=name  # 범례에 표시될 이름
+        ))
 
     # 레이아웃 업데이트
     diverging_fig.update_layout(
-        # title='Quality Grades',  # 그래프 제목 설정
-        xaxis=dict(title='Count', showgrid=False, range=[0, 1000]),  # x축 제목 설정 및 그리드 라인 제거
+        title=dict(
+            text='일일 생산 고무링 품질 수준',  # 그래프 제목 설정
+            font=dict(size=24, family='Arial', color='black')  # 제목 글꼴 크기 및 색상 설정
+        ),
+        xaxis=dict(title='Count', showgrid=False, range=[0, 1000]),  # x축 제목 설정, 그리드 라인 제거, 범위 설정
         yaxis=dict(title='', showgrid=False),  # y축 제목 제거 및 그리드 라인 제거
         barmode='stack',  # 막대 그래프 모드 설정 (스택 모드)
-        margin=dict(l=0, r=0, t=50, b=100),  # 그래프의 여백을 최소화
-        paper_bgcolor='rgba(255,0,0,0)',  # 투명 배경 설정
+        margin=dict(l=0, r=0, t=50, b=0),  # 그래프의 여백을 최소화
+        paper_bgcolor='rgba(0,0,0,0)',  # 투명 배경 설정
         plot_bgcolor='rgba(0,0,0,0)',  # 투명 플롯 영역 설정
         font=dict(color='black'),  # 글꼴 색상 설정
-        width=600
+        showlegend=True,  # 범례 표시 설정
+        height=300,  # 그래프 높이 설정
+        width= 600,
+        legend=dict(
+            x=0.85,  # 범례의 x 좌표 (그래프의 오른쪽에 위치하도록 설정)
+            y=0.95,  # 범례의 y 좌표 (그래프의 상단에 위치하도록 설정)
+            bgcolor='rgba(255,255,255,0)',  # 범례 배경 색상 (반투명 흰색)
+            font=dict(
+                size=12,  # 범례 글꼴 크기
+                color='black'  # 범례 글꼴 색상
+            )
+        )
     )
-    # diverging_fig.update_yaxes(range=[0, 1000])
     diverging_chartJSON = json.dumps(diverging_fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return jsonify({"diverging_chartJSON": diverging_chartJSON," msg" : "발산 막대 차트 data.msg"})
+    return jsonify({"diverging_chartJSON": diverging_chartJSON, "msg": "발산 막대 차트 data.msg"})
 
 
 # 규량 : 계기판 표현=================================================================================

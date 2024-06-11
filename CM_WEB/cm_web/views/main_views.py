@@ -11,6 +11,11 @@ import numpy as np
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
+# 그래프 폰트 크긱 지정 
+TITLE_SIZE = 30
+LEGEND_SIZE = 20
+TICK_TITLE_SIZE = 20
+TICK_SIZE = 15
 
 WINDOW_SIZE = 50
 cnt = 0
@@ -18,16 +23,14 @@ wrong_cnt = 0
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
-CM_DF = pd.read_csv("./cm_web/static/data/result_ver1.csv")
+CM_DF = pd.read_csv("./cm_web/static/data/result_ver2.csv")
 DATA_LENGTH = len(CM_DF)
 
 # total page를 위한 데이터 시작
-TOTAL_DF = pd.read_csv("./cm_web/static/data/for_total.csv")
-pre_data = TOTAL_DF["previouse_data"]
-real_data = TOTAL_DF["data"]
-
-
-
+# TOTAL_DF = pd.read_csv("./cm_web/static/data/for_total.csv")
+TOTAL_DF = pd.read_csv("./cm_web/static/data/LSM0610.csv")
+real_data = TOTAL_DF["previouse_data"] # 원본 데이터
+predict_data = TOTAL_DF["data"] # 우리가 예측한 데이터 
 
 # 현재 날짜와 시각을 가져옴
 now = datetime.now()
@@ -44,7 +47,7 @@ B_counts = []
 C_counts = []
 for i in range(WANT_DAY):
     # 조각조각 탐색 
-    temp_list = pre_data[:max_len]
+    temp_list = predict_data[:max_len]
     # real_data[:max_len+day_length]
     
     A_cnt = len([num for num in temp_list if 2.9 <= num <= 3.1])            # A
@@ -117,32 +120,43 @@ def draw_graph():
     col_pv = sr_list[graph_idx][0]
     col_sv = sr_list[graph_idx][1]
     new_fig = px.line(x=range(WINDOW_SIZE), y=col_pv[cnt:cnt+WINDOW_SIZE], markers=True)
-    new_fig.update_traces(name="측정값", showlegend=True, marker=dict(opacity=0.5)) # 기본 상태 그래프는 showlegend 안하면 밑에 sv 범례만 뜸 
-    # 알파값 높을수록 진함
+    new_fig.update_traces(name="측정값", showlegend=True, marker=dict(opacity=0.5))  # 기본 상태 그래프는 showlegend 안하면 밑에 sv 범례만 뜸 
 
     # setting value 그래프 추가 
     new_fig.add_trace(go.Scatter(x=list(range(WINDOW_SIZE)), y=col_sv[cnt:cnt+WINDOW_SIZE], name="세팅값"))
 
     # 배경을 투명하게 설정, 주변부 없애기, 축범위 지정, 레이아웃 세로 길이 조금 줄임
-    new_fig.update_layout(paper_bgcolor='rgba(0,0,0,0)',
-                          margin=dict(t=30, b=30, l=100, r=0),
-                          xaxis_range=[0, WINDOW_SIZE],  
-                          yaxis_range=yaxis_list[graph_idx],
-                          height=300,
-                          xaxis_title="경과시간 (초)",
-                          yaxis_title=k_name_list[graph_idx] # y축 이름 설정
-                          )
+    new_fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin=dict(t=30, b=30, l=100, r=0),
+        xaxis_range=[0, WINDOW_SIZE],  
+        yaxis_range=yaxis_list[graph_idx],
+        height=300,
+        xaxis_title="경과시간 (초)",
+        xaxis=dict(
+            title="경과시간 (초)",
+            title_font=dict(size=TICK_TITLE_SIZE),
+            tickfont=dict(size=TICK_SIZE)
+        ),
+        yaxis=dict(
+            title=k_name_list[graph_idx],
+            title_font=dict(size=TICK_TITLE_SIZE),
+            tickfont=dict(size=TICK_SIZE)
+        ),
+        legend=dict(
+            font=dict(size=20)
+        )
+    )
     
     # x축 레이블 설정
     new_fig.update_xaxes(
-        tickvals = tickvals,
-        ticktext= ticktext
+        tickvals=tickvals,
+        ticktext=ticktext
     )
     
     cnt += 1
     new_graphJSON = json.dumps(new_fig, cls=plotly.utils.PlotlyJSONEncoder)
     return new_graphJSON
-    
 
 
 # @=>데코레이터 
@@ -168,19 +182,25 @@ def dash():
 @bp.route("/total")
 def total():
     # 10월 무게 데이터에 대한 series
-    global pre_data 
-    global real_data 
+    global real_data # 
+    global predict_data # 예측 데이터
     global now
     
-    pre_acc = [] # 파란색
-    real_acc = [] # 빨간색 
+    pre_acc = [] # 파란색 -> AI 도입 후
+    real_acc = [] # 빨간색 -> AI 도입 전
     pre_sum = 0
-    pre_real = 0
-    for idx in range(len(pre_data)):
-        pre_sum += ((pre_data[idx] - 3)*1)
-        pre_real += ((real_data[idx] - 3)*1)
+    real_sum = 0
+    
+    for idx in range(len(real_data)):
+        pre_sum += (abs(predict_data[idx] - 3)*1)
+        real_sum += (abs(real_data[idx] - 3)*1)
         pre_acc.append(pre_sum)
-        real_acc.append(pre_real)
+        real_acc.append(real_sum)
+    
+    real_1 = real_acc[-1]
+    pre_1 = pre_acc[-1]
+    precent = round(abs(real_1-pre_1)/real_1 * 100,2)
+    # print(acc_sub)
 
     # Create a scatter plot
     accumulate_fig = go.Figure()
@@ -190,7 +210,8 @@ def total():
         x=list(range(1, len(pre_acc) + 1)),
         y=pre_acc,
         mode='lines', # +markers
-        fill='tozeroy',  # Fill to the x-axis
+        # fill='tozeroy',  # Fill to the x-axis
+        fill='tozeroy',
         fillcolor='rgba(200, 207, 160, 0.7)',  # Blue color with transparency rgb(200, 207, 160)
         line=dict(color='rgba(200, 207, 160, 1)'),
         name='AI도입 후'
@@ -206,26 +227,37 @@ def total():
         line=dict(color='rgba(239, 156, 102, 1)'),
         name='AI도입 전'
     ))
+    
+    
     last_month = (now - relativedelta(months=1)).month
     # Update layout for transparent background and tight layout
+    acc_sub = abs(real_1-pre_1)
+    print("==================================================",round(acc_sub*2.39,2))
+    # text=f'지난 달({last_month}월)은 AI 도입 전보다 {round(acc_sub*2.39,2)}원 절약'
     accumulate_fig.update_layout(
+        legend=dict(font=dict(size=20)),
         title=dict(
-            text=f'지난 달({last_month}월)은 AI 도입 전보다 ~원 절약',  # 그래프 제목 설정
-            font=dict(size=24, family='Arial', color='black')  # 제목 글꼴 크기 및 색상 설정
+            text=f'지난 달({last_month}월)은 AI 도입 전보다 {precent}% 절약',  # 그래프 제목 설정
+            font=dict(size=TITLE_SIZE, color='black')  # 제목 글꼴 크기 및 색상 설정
         ),
         # xaxis_title=str(last_month)+"월",
-        yaxis_title='누적값[g]',
+
         paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
         plot_bgcolor='rgba(0,0,0,0)',   # Transparent background
         width=1500, height=350,  # Reduced size
         margin=dict(l=0, r=0, t=50, b=0), # Tight layout
         showlegend=True,
+        yaxis=dict(
+            title='|val-3| 누적값[g]',
+            title_font=dict(size=TICK_TITLE_SIZE, color='black'),  # y축 타이틀 글씨 설정
+            tickfont=dict(size=TICK_SIZE)),
         xaxis=dict(
-        # title=str(last_month) + "월",
-        tickvals=[1, len(pre_data)/2, len(pre_data)],  # x축 눈금 값 설정 (1일, 15일, 30일)
-        ticktext=["1일", "15일", "31일"],  # 눈금 레이블 설정
-        #range=[1, 30],  # x축 범위 설정 (1일부터 30일까지)
-    ),
+            # title=str(last_month) + "월",
+            # title_font=dict(size=20, color='black'),  # x축 타이틀 글씨 설정
+            tickfont=dict(size=TICK_SIZE),
+            tickvals=[1, len(predict_data)/2, len(predict_data)],  # x축 눈금 값 설정 (1일, 15일, 30일)
+            ticktext=["1일", "15일", "31일"],  # 눈금 레이블 설정
+            ),
     )
     
     accumulate_graphJSON = json.dumps(accumulate_fig, cls=plotly.utils.PlotlyJSONEncoder)
@@ -272,7 +304,7 @@ def total():
         barmode='stack', 
         title=dict(
             text=f'최근 일주일 생산품 현황({START_DAY}~{END_DAY})',  # 그래프 제목 설정
-            font=dict(size=24, family='Arial', color='black')  # 제목 글꼴 크기 및 색상 설정
+            font=dict(size=TITLE_SIZE, color='black')  # 제목 글꼴 크기 및 색상 설정
         ),
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='rgba(0,0,0,0)', 
@@ -280,14 +312,31 @@ def total():
         width=850, 
         height=350,  # 그래프 사이즈
         # xaxis=dict(title='날짜', showgrid=False, zeroline=False),
-        yaxis=dict(title='생산량[개]', showgrid=False, zeroline=False),
-        legend=dict(bgcolor='rgba(0,0,0,0)'),
+        
+        # title_font=dict(size=20, color='black', weight='bold'),  # y축 타이틀 글씨 설정
+        #     tickfont=dict(size=15)),
+        yaxis=dict(
+            title='생산량[개]', showgrid=False, zeroline=False,
+            title_font=dict(size=TICK_TITLE_SIZE, color='black'),
+            tickfont=dict(size=TICK_SIZE)
+            ),
+        title_x = 0.5,
+        # title_y = 1.5,
+        legend=dict(
+            x=0.0,  # 범례의 x 좌표 (그래프의 오른쪽에 위치하도록 설정)
+            y=1.0,  # 범례의 y 좌표 (그래프의 상단에 위치하도록 설정)
+            bgcolor='rgba(0,0,0,0)', 
+            font=dict(size=LEGEND_SIZE)
+            ),
+        
         margin=dict(l=0, r=0, t=50, b=0),
         xaxis=dict(
-        title="날짜",
-        tickvals=list(range(1,WANT_DAY+1)),  # x축 눈금 값 설정 (1일, 15일, 30일)
-        ticktext=x_day_list  # 눈금 레이블 설정
-        )
+            title="날짜",
+            tickvals=list(range(1,WANT_DAY+1)),  # x축 눈금 값 설정 (1일, 15일, 30일)
+            ticktext=x_day_list,  # 눈금 레이블 설정
+            title_font=dict(size=TICK_TITLE_SIZE, color='black'),
+            tickfont=dict(size=TICK_SIZE)
+            )
     )
     
     quality_graphJSON = json.dumps(quality_fig, cls=plotly.utils.PlotlyJSONEncoder)
@@ -361,24 +410,24 @@ def update_donut():
     diverging_fig.update_layout(
         title=dict(
             text='일일 생산 고무링 품질 수준',  # 그래프 제목 설정
-            font=dict(size=24, family='Arial', color='black')  # 제목 글꼴 크기 및 색상 설정
+            font=dict(size=TITLE_SIZE, color='black')  # 제목 글꼴 크기 및 색상 설정
         ),
-        xaxis=dict(title='Count', showgrid=False, range=[0, 1000]),  # x축 제목 설정, 그리드 라인 제거, 범위 설정
-        yaxis=dict(title='', showgrid=False),  # y축 제목 제거 및 그리드 라인 제거
+        xaxis=dict(title='등급별 고무링 개수', showgrid=False, range=[0, 1000], tickfont=dict(size=TICK_SIZE), title_font=dict(size=TICK_TITLE_SIZE)),  # x축 제목 설정, 그리드 라인 제거, 범위 설정
+        yaxis=dict(title='', showgrid=False,tickfont=dict(size=TICK_SIZE)),  # y축 제목 제거 및 그리드 라인 제거
         barmode='stack',  # 막대 그래프 모드 설정 (스택 모드)
         margin=dict(l=0, r=0, t=50, b=0),  # 그래프의 여백을 최소화
         paper_bgcolor='rgba(0,0,0,0)',  # 투명 배경 설정
         plot_bgcolor='rgba(0,0,0,0)',  # 투명 플롯 영역 설정
         font=dict(color='black'),  # 글꼴 색상 설정
         showlegend=True,  # 범례 표시 설정
-        height=300,  # 그래프 높이 설정
-        width= 600,
+        height=350,  # 그래프 높이 설정
+        width=600,
         legend=dict(
-            x=0.85,  # 범례의 x 좌표 (그래프의 오른쪽에 위치하도록 설정)
-            y=0.95,  # 범례의 y 좌표 (그래프의 상단에 위치하도록 설정)
+            x=0.7,  # 범례의 x 좌표 (그래프의 오른쪽에 위치하도록 설정)
+            y=0.1,  # 범례의 y 좌표 (그래프의 상단에 위치하도록 설정)
             bgcolor='rgba(255,255,255,0)',  # 범례 배경 색상 (반투명 흰색)
             font=dict(
-                size=12,  # 범례 글꼴 크기
+                size=20,  # 범례 글꼴 크기
                 color='black'  # 범례 글꼴 색상
             )
         )

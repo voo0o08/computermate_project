@@ -6,8 +6,8 @@ console.log("jQuery type:", typeof $j);  // jQuery가 올바르게 로드되었�
 // $(document).ready 블록 내부에 있는 코드는 문서가 완전히 로드된 후 실행
 $j(document).ready(function() {
   var graph1DataElement = $j('#graph1-data');
-  var donut2DataElement = $j('#donut2-data');
-  var donut3DataElement = $j('#donut3-data');
+  var divergingDataElement = $j('#diverging-data');
+
 
   // 그래프 초기화 
   if (graph1DataElement.length) {
@@ -22,10 +22,10 @@ $j(document).ready(function() {
     console.error("#graph1-data element not found");
   }
 
-  // if (donut2DataElement.length) {
+  // if (divergingDataElement.length) {
   //   try {
-  //     var donut2 = JSON.parse(donut2DataElement.text());
-  //     Plotly.newPlot("donut-chart-2", donut2, {});  // 차트 생성
+  //     var donut2 = JSON.parse(divergingDataElement.text());
+  //     Plotly.newPlot("diverging-chart", donut2, {});  // 차트 생성
   //     console.log("도넛2 ready");
   //   } catch (e) {
   //     console.error("Error parsing JSON data:", e);
@@ -56,8 +56,8 @@ function updateChart(now_button) {
 function updateDonut() {
   // update_donut
   $j.getJSON('/update_donut', function(data) {
-    console.log("Data received:", data);  // 콘솔 로그 추가
-    console.log(data.msg);
+    // console.log("Data received:", data);  // 콘솔 로그 추가
+    // console.log(data.msg);
 
     try {
       // var new_donut2 = JSON.parse(data.new_donut2JSON);  // JSON 문자열을 객체로 변환

@@ -82,6 +82,7 @@
     position: relative;
     flex: 2;
     background-color: var(--gray-color);
+
     border-radius: 15px;
     /* margin-top:15px; */
 

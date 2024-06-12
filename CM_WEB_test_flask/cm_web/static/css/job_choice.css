@@ -1,0 +1,73 @@
+:root {
+    --gray-color: #F2F2F2;
+    --text-color: #7E7E7E;
+    --white-color: #ffffff;
+    --green-color: #1FA680;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--gray-color);
+}
+
+#index_main_box {
+    position: absolute;
+    background-color: var(--white-color);
+    border-radius: 15px;
+    inset: 50px;
+}
+
+#index_logo {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#login_box {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    top: 150px;
+    left: 50px;
+    bottom: 50px;
+    right: 50px;
+}
+
+.icon_box {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    width: 48%;
+    background-color: var(--gray-color);
+    border-radius: 15px;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    justify-content: space-around; /* 각 요소를 같은 간격으로 떨어지게 배치 */
+   
+    /* height: 100%; */
+}
+
+.icon_box img {
+    width: 50%; /* 아이콘 크기를 줄입니다 */
+    height: auto;
+}
+
+.icon_box:hover {
+    background-color: var(--green-color);
+}
+
+.icon_box:hover .job_text {
+    color: var(--white-color); /* 호버 시 텍스트 색상을 흰색으로 변경 */
+}
+
+.job_text {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 3em;
+    font-weight: bold;
+}

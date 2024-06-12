@@ -9,14 +9,12 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 migrate = Migrate()
 
-
 ### 어플리케이션 팩토리 함수 --------------------
 def create_app():
     # Flask Web Server App 인스턴스 생성
     app = Flask(__name__)
 
     # 설정 내용 로딩
-    # app.config.from_object('config')  # 클래스 로드시 사용
     app.config.from_pyfile("config.py")
 
     # ORM 즉, DB 초기화
@@ -33,4 +31,6 @@ def create_app():
 
     # Flask Server 인스턴스 반환
     return app
+
+
 

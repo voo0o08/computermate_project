@@ -1,7 +1,7 @@
 import os
 
 BASE_DIR = os.path.dirname(__file__)
-DB_MANE_SQLITE = "app.db"
+# DB_MANE_SQLITE = "app.db"
 
 ## 다양한 DBMS URI
 # DB_MYSQL_URI = "mysql+pymysql://root:kdt5@1.251.203.204:33065/Team4_TranslateDB"

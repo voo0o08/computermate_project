@@ -1,6 +1,6 @@
 # ## 모듈 로딩 --------------------------------------------------
-# from my_web import db
-# from datetime import datetime
+from cm_web import db
+from datetime import datetime
 
 
 # ## Translation 테이블 클래스 ---------------------------------------

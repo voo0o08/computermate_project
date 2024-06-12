@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raw10 테이블 데이터</title>
+</head>
+<body>
+    <h1>Raw10 테이블 데이터</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>time</th>
+                <th>E_scr_pv</th>
+                <th>E_scr_sv</th>
+                <!-- 다른 컬럼 헤더들도 추가하세요 -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row.time }}</td>
+                    <td>{{ row.E_scr_pv }}</td>
+                    <td>{{ row.E_scr_sv }}</td>
+                    <!-- 다른 컬럼 데이터들도 추가하세요 -->
+                   
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

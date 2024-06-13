@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
       type: "indicator",
       mode: "gauge+number+delta",
       value: 0,
-      title: { text: title, font: { size: 15 }},
+      title: { text: title, font: { size: 20 }},
       delta: { reference: (range[0]+range[1])*0.5 },
       gauge: {
         axis: { range: range, startangle: -135, endangle: 135, tickvals: tickvals, ticktext:ticktext, tickfont:{size:10}}, // 각도를 270도로 설정

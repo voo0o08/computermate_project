@@ -214,7 +214,7 @@ def total():
         fill='tozeroy',
         fillcolor='rgba(200, 207, 160, 0.7)',  # Blue color with transparency rgb(200, 207, 160)
         line=dict(color='rgba(200, 207, 160, 1)'),
-        name='AI도입 후'
+        name=f'AI도입 후 {round(pre_1, 1)}'
     ))
     
     # real_acc (AI 도입 전)
@@ -225,7 +225,7 @@ def total():
         fill='tonexty',  # Fill to the previous trace
         fillcolor='rgba(239, 156, 102, 0.5)',  # rgb(252, 220, 148)
         line=dict(color='rgba(239, 156, 102, 1)'),
-        name='AI도입 전'
+        name=f'AI도입 전 {round(real_1,1)}'
     ))
     
     
@@ -235,13 +235,19 @@ def total():
     print("==================================================",round(acc_sub*2.39,2))
     # text=f'지난 달({last_month}월)은 AI 도입 전보다 {round(acc_sub*2.39,2)}원 절약'
     accumulate_fig.update_layout(
-        legend=dict(font=dict(size=20)),
+        legend=dict(
+            font=dict(size=20),
+            x=0.05,  # x축 좌표 (0이 좌측 끝)
+            y=1,  # y축 좌표 (1이 상단 끝)
+            xanchor='left',  # 범례의 x축 기준 위치
+            yanchor='top'   # 범례의 y축 기준 위치),
+        ),
         title=dict(
-            text=f'지난 달({last_month}월)은 AI 도입 전보다 {precent}% 절약',  # 그래프 제목 설정
-            font=dict(size=TITLE_SIZE, color='black')  # 제목 글꼴 크기 및 색상 설정
+            text=f'AI 도입 후 {precent}% 절약(전월)',  # 그래프 제목 설정
+            font=dict(size=TITLE_SIZE)  # 제목 글꼴 크기 및 색상 설정
         ),
         # xaxis_title=str(last_month)+"월",
-
+        title_x = 0.5,
         paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
         plot_bgcolor='rgba(0,0,0,0)',   # Transparent background
         width=1500, height=350,  # Reduced size
@@ -249,11 +255,15 @@ def total():
         showlegend=True,
         yaxis=dict(
             title='|val-3| 누적값[g]',
-            title_font=dict(size=TICK_TITLE_SIZE, color='black'),  # y축 타이틀 글씨 설정
-            tickfont=dict(size=TICK_SIZE)),
+            title_font=dict(size=TICK_TITLE_SIZE),  # y축 타이틀 글씨 설정
+            tickfont=dict(size=TICK_SIZE),
+            title_standoff=40  # x축 레이블과 축 사이의 간격 설정
+
+            ),
+           
         xaxis=dict(
             # title=str(last_month) + "월",
-            # title_font=dict(size=20, color='black'),  # x축 타이틀 글씨 설정
+            # title_font=dict(size=TICK_TITLE_SIZE),  # x축 타이틀 글씨 설정
             tickfont=dict(size=TICK_SIZE),
             tickvals=[1, len(predict_data)/2, len(predict_data)],  # x축 눈금 값 설정 (1일, 15일, 30일)
             ticktext=["1일", "15일", "31일"],  # 눈금 레이블 설정
@@ -292,6 +302,7 @@ def total():
         marker_line_width=0  # Remove border
     ))
     
+    ################################################################################################################################################3
     x_day_list = []
     for i in range(WANT_DAY):
         day = now + timedelta(days=-WANT_DAY+i)
@@ -303,38 +314,38 @@ def total():
     quality_fig.update_layout(
         barmode='stack', 
         title=dict(
-            text=f'최근 일주일 생산품 현황({START_DAY}~{END_DAY})',  # 그래프 제목 설정
-            font=dict(size=TITLE_SIZE, color='black')  # 제목 글꼴 크기 및 색상 설정
+            text=f'최근 일주일 생산품 현황',  # 그래프 제목 설정
+            font=dict(size=TITLE_SIZE)  # 제목 글꼴 크기 및 색상 설정
         ),
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='rgba(0,0,0,0)', 
-        font=dict(color='black'),
         width=850, 
         height=350,  # 그래프 사이즈
         # xaxis=dict(title='날짜', showgrid=False, zeroline=False),
         
-        # title_font=dict(size=20, color='black', weight='bold'),  # y축 타이틀 글씨 설정
+        # title_font=dict(size=20, weight='bold'),  # y축 타이틀 글씨 설정
         #     tickfont=dict(size=15)),
         yaxis=dict(
             title='생산량[개]', showgrid=False, zeroline=False,
-            title_font=dict(size=TICK_TITLE_SIZE, color='black'),
-            tickfont=dict(size=TICK_SIZE)
+            title_font=dict(size=TICK_TITLE_SIZE),
+            tickfont=dict(size=TICK_SIZE),
+            title_standoff=40
             ),
         title_x = 0.5,
         # title_y = 1.5,
         legend=dict(
-            x=0.0,  # 범례의 x 좌표 (그래프의 오른쪽에 위치하도록 설정)
+            x=0.03,  # 범례의 x 좌표 (그래프의 오른쪽에 위치하도록 설정)
             y=1.0,  # 범례의 y 좌표 (그래프의 상단에 위치하도록 설정)
-            bgcolor='rgba(0,0,0,0)', 
+            bgcolor='rgba(255,255,255,0)', 
             font=dict(size=LEGEND_SIZE)
             ),
         
         margin=dict(l=0, r=0, t=50, b=0),
         xaxis=dict(
-            title="날짜",
+            # title="날짜",
             tickvals=list(range(1,WANT_DAY+1)),  # x축 눈금 값 설정 (1일, 15일, 30일)
             ticktext=x_day_list,  # 눈금 레이블 설정
-            title_font=dict(size=TICK_TITLE_SIZE, color='black'),
+            title_font=dict(size=TICK_TITLE_SIZE),
             tickfont=dict(size=TICK_SIZE)
             )
     )
@@ -410,15 +421,16 @@ def update_donut():
     diverging_fig.update_layout(
         title=dict(
             text='일일 생산 고무링 품질 수준',  # 그래프 제목 설정
-            font=dict(size=TITLE_SIZE, color='black')  # 제목 글꼴 크기 및 색상 설정
+            font=dict(size=TITLE_SIZE)  # 제목 글꼴 크기 및 색상 설정
         ),
-        xaxis=dict(title='등급별 고무링 개수', showgrid=False, range=[0, 1000], tickfont=dict(size=TICK_SIZE), title_font=dict(size=TICK_TITLE_SIZE)),  # x축 제목 설정, 그리드 라인 제거, 범위 설정
+        xaxis=dict(showgrid=False, range=[0, 1000], tickfont=dict(size=TICK_SIZE), title_font=dict(size=TICK_TITLE_SIZE)),  # x축 제목 설정, 그리드 라인 제거, 범위 설정
         yaxis=dict(title='', showgrid=False,tickfont=dict(size=TICK_SIZE)),  # y축 제목 제거 및 그리드 라인 제거
         barmode='stack',  # 막대 그래프 모드 설정 (스택 모드)
         margin=dict(l=0, r=0, t=50, b=0),  # 그래프의 여백을 최소화
         paper_bgcolor='rgba(0,0,0,0)',  # 투명 배경 설정
         plot_bgcolor='rgba(0,0,0,0)',  # 투명 플롯 영역 설정
-        font=dict(color='black'),  # 글꼴 색상 설정
+        
+        title_x = 0.5,
         showlegend=True,  # 범례 표시 설정
         height=350,  # 그래프 높이 설정
         width=600,
@@ -427,8 +439,8 @@ def update_donut():
             y=0.1,  # 범례의 y 좌표 (그래프의 상단에 위치하도록 설정)
             bgcolor='rgba(255,255,255,0)',  # 범례 배경 색상 (반투명 흰색)
             font=dict(
-                size=20,  # 범례 글꼴 크기
-                color='black'  # 범례 글꼴 색상
+                size=15,  # 범례 글꼴 크기
+                
             )
         )
     )

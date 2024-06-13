@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Raw10 테이블 데이터</title>
+    <title>Raw10 날짜 거른 버전</title>
 </head>
 <body>
-    <h1>Raw10 테이블 데이터</h1>
+    <h1>Raw10 날짜 거른 버전</h1>
     <table border="1">
         <thead>
             <tr>
@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in data %}
+            {% for row in entries %}
                 <tr>
                     <td>{{ row.time }}</td>
                     <td>{{ row.E_scr_pv }}</td>

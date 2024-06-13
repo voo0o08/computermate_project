@@ -344,9 +344,9 @@ def total():
     return render_template("total.html", accumulate_graphJSON=accumulate_graphJSON, quality_graphJSON=quality_graphJSON)
 
 
-@bp.route("/learning")
-def learning():
-    return render_template("learning.html")
+# @bp.route("/learning")
+# def learning():
+#     return render_template("learning.html")
 
 
 # 차트는 여기서 업데이트됨
@@ -482,3 +482,12 @@ def click_button():
 @bp.route('/employee_dash')
 def employee_dash():
     return render_template("employee_dash.html")
+
+
+@bp.route('/data_test', methods=['POST'])
+def data_test():
+    data = request.get_json()
+    print(data["startDate"])
+    print(data["endDate"])
+
+    return jsonify({"message": "날짜는 고마 잘 넘어왔심더"})

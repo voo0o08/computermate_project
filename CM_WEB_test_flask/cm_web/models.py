@@ -13,9 +13,8 @@ from datetime import datetime
 
 class Raw10(db.Model):
     __tablename__ = 'raw10'
-    time = db.Column(db.Text(), primary_key=True)
+    time = db.Column(db.DateTime(), primary_key=True)
     # 다른 컬럼들도 정의하세요. 예:
-  
 
     E_scr_pv = db.Column(db.Integer)
     E_scr_sv = db.Column(db.Integer)
@@ -29,14 +28,3 @@ class Raw10(db.Model):
     s_temp_pv = db.Column(db.Double)
     s_temp_sv = db.Column(db.Integer)
     
-    # E_scr_sv	int	YES
-    # c_temp_pv	double	YES
-    # c_temp_sv	int	YES
-    # k_rpm_pv	int	YES
-    # k_rpm_sv	int	YES
-    
-    # n_temp_pv	double	YES
-    # n_temp_sv	int	YES
-    # scale_pv	double	YES
-    # s_temp_pv	double	YES
-    # s_temp_sv	int	YES

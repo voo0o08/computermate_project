@@ -16,18 +16,18 @@ document.addEventListener("DOMContentLoaded", function() {
     video.loop = true; // 반복 재생 설정
     video.play(); // 동영상 재생
 
-    // 동영상 이벤트 처리
-    video.addEventListener('play', function() {
-        console.log('동영상 재생 시작');
-    });
+    // // 동영상 이벤트 처리
+    // video.addEventListener('play', function() {
+    //     // console.log('동영상 재생 시작');
+    // });
 
-    video.addEventListener('pause', function() {
-        console.log('동영상 일시 중지');
-    });
+    // video.addEventListener('pause', function() {
+    //     // console.log('동영상 일시 중지');
+    // });
 
-    video.addEventListener('ended', function() {
-        console.log('동영상 종료');
-        video.currentTime=0;
-        video.play();
-    });
+    // video.addEventListener('ended', function() {
+    //     console.log('동영상 종료');
+    //     video.currentTime=0;
+    //     video.play();
+    // });
 });

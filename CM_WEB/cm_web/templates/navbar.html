@@ -39,6 +39,20 @@
         <button id="confirm_button">확인</button>
         <button type="button" onclick="closeConfirmPopup()">취소</button>
     </div>
+
+    <div id="result_popup" class="popup">
+        <h2>재학습 결과</h2>
+        <p id="result_text"></p>
+        <button id="update_button">갱신</button>
+        <button type="button" onclick="closeResultPopup()">유지</button>
+    </div>
+
+    <div id="update_confirm_popup" class="popup">
+        <h2>갱신 확인</h2>
+        <p id="update_confirm_text">변경 날짜에 갱신하시겠습니까?</p>
+        <button id="confirm_update_button">예</button>
+        <button type="button" onclick="closeUpdateConfirmPopup()">아니요</button>
+    </div>
     <!-- 팝업창 내용 끝 -->
 
     <script src="{{ url_for('static', filename='js/pop_up.js') }}"></script>

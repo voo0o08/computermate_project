@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="dash_container">
+    <div id="dash_top">
+        <div id="col_select_box">
+            <button type="submit" value="k_rpm" id="k_rpm" class="button_ active">칼날 속도</button>
+            <button type="submit" value="E_scr" id="E_scr" class="button_">스크류 속도</button>
+            <button type="submit" value="c_temp" id="c_temp" class="button_">챔버 온도</button>
+            <button type="submit" value="n_temp" id="n_temp" class="button_">노즐 온도</button>
+            <button type="submit" value="s_temp" id="s_temp" class="button_">스크류 온도</button>
+        </div>
+
+    
+        <div id="chart1"></div>
+        <script type="application/json" id="graph1-data">{{ graph1JSON | safe }}</script>
+    </div>
+
+    <!-- ------------------------ 여기서부터 하단 ------------------------ -->
+    <!-- 일일 생산량 및 게이지 바 -->
+    <div class="dash_bottom">
+        <div id="dash_left">
+            <div id="diverging_temp">
+                <div id="diverging-chart" class="chart"></div>
+                <!-- <script type="application/json" id="diverging-data">{{ diverging_chartJSON | safe }}</script> -->
+                <!-- script는 삭제해도 됨 -->
+            </div>
+        </div>
+        
+        <div id="dash_right">
+            <div class="chart3_box", div id="gauges-container">
+                <div class="gauge-row">
+                    <div class="left-gauge_dash">
+                        <div class="gauge large" id="gauge-chart-1"></div>
+                        <div class="gauge large" id="gauge-chart-2"></div>
+                    </div>
+                    <div class="right-gauge_dash">
+                        <div class="right-gauge_left_dash">
+                            <div class="gauge small" id="gauge-chart-3"></div>
+                            <div class="gauge small" id="gauge-chart-4"></div>
+                        </div>
+                        <div class="right-gauge_right_dash">
+                            <div class="gauge small" id="gauge-chart-5"></div>
+                            <div class="gauge small" id="gauge-chart-6"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+<!-- plotly -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

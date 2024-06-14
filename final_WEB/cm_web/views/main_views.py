@@ -11,6 +11,12 @@ import numpy as np
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
+# DB관련
+from ..models import Raw10
+from ..models import Test
+from .. import db
+from datetime import datetime
+
 # 그래프 폰트 크긱 지정 
 TITLE_SIZE = 30
 LEGEND_SIZE = 20
@@ -25,7 +31,7 @@ bp = Blueprint("main", __name__, url_prefix="/")
 
 CM_DF = pd.read_csv("./cm_web/static/data/result_ver2.csv")
 DATA_LENGTH = len(CM_DF)
-# print(DATA_LENGTH)
+print(DATA_LENGTH)
 cnt_max = DATA_LENGTH-2*WINDOW_SIZE
 
 # total page를 위한 데이터 시작
@@ -457,6 +463,13 @@ def update_gauges():
         "중량 예측": float(scale_pv[cnt+WINDOW_SIZE]),
         "스크류 속도": float(E_scr_pv[cnt+WINDOW_SIZE])
     }
+    # print(cnt)
+    if cnt == 1:
+        for i in range(100, 150):
+            new_entry = Test(c_time=datetime.now(), my_num=i)
+            db.session.add(new_entry)
+        db.session.commit()
+    
     #cnt = (cnt + 1) % len(c_temp_pv)  # 데이터를 순환하도록 cnt를 리셋합니다.
     # print('게이지 오류!',c_temp_pv[cnt+WINDOW_SIZE])
     return jsonify(data)

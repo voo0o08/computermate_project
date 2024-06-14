@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/nav.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/total.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"> <!--시명님이 생성-->
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/cctv.css')}}"> -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/dash.css')}}">
+    {% if title %}
+    <title>ComputerMate - {{title}}</title>
+    {% else %}
+    <title>ComputerMate</title>
+    {% endif %}
+  </head>
+
+  <body>
+    <!-- navbar는 include로 모든 페이지에 사용 -->
+    {% include "navbar.html" %}
+
+    <main>
+        <div class="main_container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+</body>
+</html>

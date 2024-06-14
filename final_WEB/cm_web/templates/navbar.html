@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="{{url_for('static', filename='css/pop_up.css')}}">
+    <!-- nav 상단바 내용 시작 -->
+    <nav class="navbar">
+        <div class="white_back">
+            <div class="nav_logo">
+                <a href="/">
+                    <img src="../static/img/cm_logo.png" alt="Logo">
+                </a>
+            </div>
+            <div class="nav_profile">
+                <img src="../static/img/profile.png" alt="profile">
+            </div>
+            <ul class="nav_menu">
+                <li><a href="total">전체</a></li>
+                <li><a href="dash">공정현황</a></li>
+                <li><a href="learning" id="learning-link">재학습</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- nav 상단바 내용 끝 -->
+
+    <!-- 팝업창 내용 시작 -->
+    <div id="popup_overlay" class="popup_overlay"></div>
+    <div id="popup" class="popup">
+        <h2>재 학 습</h2>
+        <form id="relearning-form">
+            <label for="start-date">시작 일자:</label>
+            <input type="date" id="start-date" name="start-date" required><br><br>
+            <label for="end-date">종료 일자:</label>
+            <input type="date" id="end-date" name="end-date" required><br><br>
+            <button type="submit">확인</button>
+            <button type="button" onclick="closePopup()">취소</button>
+        </form>
+    </div>
+
+    <div id="confirm_popup" class="popup">
+        <h2>재학습 확인</h2>
+        <p id="confirm_text"></p>
+        <button id="confirm_button">확인</button>
+        <button type="button" onclick="closeConfirmPopup()">취소</button>
+    </div>
+    <!-- 팝업창 내용 끝 -->
+
+    <script src="{{ url_for('static', filename='js/pop_up.js') }}"></script>

@@ -7,20 +7,27 @@
     transform: translate(-50%, -50%);
     background-color: white;
     padding: 40px; /* 팝업 내용을 더 넓게 조정 */
-    height: 300px;
+    height: auto; /* 높이를 자동으로 조정 */
     width: 400px; /* 팝업 전체 너비 조정 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     text-align: center; /* 내용을 가운데 정렬 */
     border-radius: 15px;
+    font-size: 20px; /* 기본 글씨 크기 */
 }
 
 .popup form {
     text-align: center; /* 버튼을 가운데 정렬 */
 }
 
+.popup form input {
+    margin-bottom: 30px; /* 인풋 요소와 버튼 사이의 간격 조정 */
+}
+
 .popup button {
     margin-left: 10px; /* 버튼 사이의 간격 조절 */
+    margin-bottom: 10px; /* 버튼 사이의 간격 조절 */
+    font-size: 20px; /* 버튼 글씨 크기 */
 }
 
 .popup_overlay {
@@ -35,7 +42,7 @@
 }
 
 /* 재학습 확인 팝업창 내용 가운데 정렬 */
-#confirm_popup {
+#confirm_popup, #result_popup, #update_confirm_popup {
     display: none;
     position: fixed;
     left: 50%;
@@ -43,8 +50,22 @@
     transform: translate(-50%, -50%);
     text-align: center;
     background-color: white;
-    padding: 40px; /* 팝업 내용을 더 넓게 조정 */
-    width: 400px; /* 팝업 전체 너비 조정 */
+    padding: 40px;
+    width: 600px; /* 팝업 전체 너비를 넓게 조정 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+}
+
+#confirm_popup p,
+#result_popup p,
+#update_confirm_popup p {
+    margin-bottom: 20px; /* 텍스트와 버튼 사이의 간격 조정 */
+}
+
+#confirm_popup button,
+#result_popup button,
+#update_confirm_popup button {
+    margin-top: 20px; /* 버튼 사이의 간격 조절 */
+    margin-bottom: 10px; /* 버튼 사이의 간격 조절 */
+    font-size: 20px; /* 버튼 글씨 크기 */
 }

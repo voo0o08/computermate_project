@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-// 게이지 JS (새로 추가됨)
+// 게이지 JS => 규량 
 document.addEventListener("DOMContentLoaded", function() {
   function createGaugeChart(id, title, range, steps) {
     var tickvals = steps.map(step=> (step.range[0]));
@@ -140,9 +140,6 @@ document.addEventListener("DOMContentLoaded", function() {
         bar: { color: "white" },
         steps: steps,
         bordercolor: 'rgba(0,0,0,0)', // 테두리선을 투명하게 설정
-      
-
-
       }
     }];
 

@@ -11,6 +11,15 @@ import numpy as np
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
+# DB관련
+from ..models import Raw10
+from ..models import Test
+from ..models import Error_Log
+from .. import db
+from datetime import datetime
+import pytz
+
+
 # 그래프 폰트 크긱 지정 
 TITLE_SIZE = 30
 LEGEND_SIZE = 20
@@ -444,21 +453,95 @@ def update_donut():
     return jsonify({"diverging_chartJSON": diverging_chartJSON, "msg": "발산 막대 차트 data.msg"})
 
 
+
 # 규량 : 계기판 표현=================================================================================
+def error_check(val, ranges):
+    for start, end, error_code in ranges:
+        if start <= val < end:
+            return error_code
+        
+def error_commit(sensor_id, error_code):
+    '''
+    sensor_id : 센서 id
+    error_code : error_check의 결과로 넘어온 error_code 
+    '''
+    current_time = datetime.now()  # 마이크로초까지 포함된 현재 시간
+    new_entry = Error_Log(sensor_id=sensor_id, error_code=error_code, time=current_time)
+    db.session.add(new_entry)
+    db.session.commit()
+    
+# (시작값, 끝값, 에러코드)
+temp_ranges = [
+    (65, 75, 0),
+    (-np.inf, 55, -2),  
+    (55, 65, -1),
+    (75, 85, 1),
+    (85, np.inf, 2)
+]
+rpm_ranges = [
+    (170, 190, 0),
+    (-np.inf, 150, -2),  
+    (150, 170, -1),
+    (190, 210, 1),
+    (210, np.inf, 2)
+]
+scale_ranges = [
+    (2.8, 3.2, 0),
+    (-np.inf, 2.4, -2),  
+    (2.4, 2.8, -1),
+    (3.2, 3.6, 1),
+    (3.6, np.inf, 2)
+]
+
+scr_ranges = [
+    (7.5, 8.5, 0),
+    (-np.inf, 6.5, -2), 
+    (6.5, 7.5, -1),
+    (8.5, 9.5, 1),
+    (9.5, np.inf, 2)
+]
+
+range_list = [temp_ranges, rpm_ranges, temp_ranges, temp_ranges, scale_ranges, scr_ranges]
 @bp.route('/update_gauges')
 def update_gauges():
     global cnt
     global WINDOW_SIZE
+    global range_list
+
+    
+    c_val = float(c_temp_pv[cnt+WINDOW_SIZE])
+    k_val = float(k_rpm_pv[cnt+WINDOW_SIZE])
+    n_val = float(n_temp_pv[cnt+WINDOW_SIZE])
+    s_val = float(s_temp_pv[cnt+WINDOW_SIZE])
+    scale_val = float(scale_pv[cnt+WINDOW_SIZE])
+    s_val2 = float(E_scr_pv[cnt+WINDOW_SIZE])
+    
     data = {
-        "챔버 온도": float(c_temp_pv[cnt+WINDOW_SIZE]),
-        "칼날 속도": float(k_rpm_pv[cnt+WINDOW_SIZE]),
-        "노즐 온도": float(n_temp_pv[cnt+WINDOW_SIZE]),
-        "스크류 온도": float(s_temp_pv[cnt+WINDOW_SIZE]),
-        "중량 예측": float(scale_pv[cnt+WINDOW_SIZE]),
-        "스크류 속도": float(E_scr_pv[cnt+WINDOW_SIZE])
+        "챔버 온도": c_val,
+        "칼날 속도": k_val,
+        "노즐 온도": n_val,
+        "스크류 온도": s_val,
+        "중량 예측": scale_val,
+        "스크류 속도": s_val2
     }
-    #cnt = (cnt + 1) % len(c_temp_pv)  # 데이터를 순환하도록 cnt를 리셋합니다.
-    # print('게이지 오류!',c_temp_pv[cnt+WINDOW_SIZE])
+    
+    # test DB 참고용 
+    # if cnt == 1:
+    #     for i in range(150, 160):
+    #         # 현재 시간을 UTC 시간대로 얻어서 마이크로초까지 포함
+    #         current_time = datetime.now()  # 마이크로초까지 포함된 현재 시간
+    #         new_entry = Test(c_time=current_time, my_num=i)
+    #         db.session.add(new_entry)
+    #     db.session.commit()
+    
+    val_list = [c_val, k_val, n_val, s_val, scale_val, s_val2]
+    # 온도 센서 이상 값 table => Error_Log
+    for sensor_id, val in enumerate(val_list):
+        error_log = error_check(val, range_list[sensor_id])
+        if error_log != 0:
+            error_commit(sensor_id, error_log)
+        
+    
     return jsonify(data)
 
 

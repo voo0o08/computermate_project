@@ -20,7 +20,7 @@ from datetime import datetime
 import pytz
 
 
-# 그래프 폰트 크긱 지정 
+# 그래프 폰트 크기 지정 
 TITLE_SIZE = 30
 LEGEND_SIZE = 20
 TICK_TITLE_SIZE = 20
